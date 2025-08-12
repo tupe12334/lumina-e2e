@@ -5,14 +5,14 @@ export default defineConfig({
   reporter: "html",
   globalSetup: "./playwright/global-setup.ts",
   use: {
-    baseURL: "http://localhost:5766",
+    baseURL: "http://localhost:4173",
     screenshot: "on",
     trace: "on",
     viewport: { width: 1280, height: 720 },
   },
   webServer: {
     command: "pnpm --dir ../client preview",
-    port: 5766,
+    port: 4173,
     reuseExistingServer: !process.env.CI,
   },
 });
