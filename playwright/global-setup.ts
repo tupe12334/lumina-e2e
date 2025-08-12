@@ -4,7 +4,7 @@ async function globalSetup() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   await page.context().clearCookies();
-  await page.goto('http://localhost:4173');
+  await page.goto('http://localhost:4174');
   await page.evaluate(() => localStorage.clear());
   await browser.close();
 }
