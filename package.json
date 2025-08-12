@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test:e2e": "pnpm exec playwright test",
+    "test:e2e": "pnpm exec playwright test --ui=false --headed=false",
     "test:ai": "playwright test --reporter=dot,json",
     "test:e2e:ui": "pnpm exec playwright test --ui",
     "test:update-snapshots": "pnpm exec playwright test --update-snapshots"
