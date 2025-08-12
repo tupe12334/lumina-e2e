@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import test, { expect } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -10,10 +11,12 @@ test.describe('Authentication Flow', () => {
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();
     await sidebar.selectLanguage('en');
-    await page.goto('/dashboard');
+    await sidebar.clickAuth();
     expect(page.url()).toContain('/login');
     const loginPage = new LoginPage(page);
-    const { email, password } = await loginPage.autoLogin();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    await loginPage.login(email, password);
     const onboarding = new OnboardingPage(page);
     await onboarding.selectUniversity('The Open University Of Israel');
     await onboarding.selectDegree('Economics');

@@ -77,9 +77,8 @@ test.describe("Testing the visualization of the BlockTree in every page that in 
     const degreesPage = new DegreesPage(page);
     await degreesPage.waitForDegreesContent();
     await degreesPage.clickDegree("Economics");
-    await page.waitForTimeout(3000);
 
     // Verify we're on the degree page
-    await expect(page).toHaveURL(/\/degrees\//);
+    await expect(page).toHaveURL(/\/degrees\/economics-degree/);
   });
 });

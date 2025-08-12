@@ -3,6 +3,7 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./playwright",
   reporter: "html",
+  globalSetup: "./playwright/global-setup.ts",
   use: {
     baseURL: "http://localhost:5766",
     screenshot: "on",

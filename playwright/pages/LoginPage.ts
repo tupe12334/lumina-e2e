@@ -28,11 +28,13 @@ export class LoginPage {
   }
 
   async login(email: string, password: string): Promise<void> {
+    await this.email.waitFor({ state: 'visible' });
+    await this.password.waitFor({ state: 'visible' });
     await this.email.fill(email);
     await this.password.fill(password);
     await this.submit.click();
-    await this.page.waitForURL((url) => url.pathname !== "/login");
-    await this.page.waitForLoadState("networkidle");
+    await this.page.pause();
+    await this.page.waitForNavigation();
   }
 
   async autoLogin(): Promise<{ email: string; password: string }> {
