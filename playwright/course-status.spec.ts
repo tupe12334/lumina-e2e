@@ -190,7 +190,6 @@ test.describe('Course Status changes', () => {
                   he_text: 'האוניברסיטה הפתוחה',
                 },
               },
-              },
               modules: [],
               publishedAt: '2024-01-01T00:00:00.000Z',
               Block: {
@@ -239,7 +238,6 @@ test.describe('Course Status changes', () => {
                   en_text: 'The Open University Of Israel',
                   he_text: 'האוניברסיטה הפתוחה',
                 },
-              },
               },
               modules: [],
               publishedAt: '2024-01-01T00:00:00.000Z',
