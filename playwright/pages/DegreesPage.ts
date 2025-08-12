@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from "@playwright/test";
 
 /**
  * Page Object Model for the degrees page.
@@ -31,9 +31,9 @@ export class DegreesPage {
     this.page = page;
 
     // Degrees list page elements
-    this.pageTitle = page.getByRole('heading', { name: /degrees|תארים/i });
-    this.degreesTable = page.getByRole('table');
-    this.degreeRows = page.getByRole('row');
+    this.pageTitle = page.getByRole("heading", { name: /degrees|תארים/i });
+    this.degreesTable = page.getByRole("table");
+    this.degreeRows = page.getByRole("row");
     this.noDegreesMessage = page.getByText(
       /no degrees available|אין תארים זמינים/i
     );
@@ -43,32 +43,32 @@ export class DegreesPage {
     );
 
     // Table headers
-    this.degreeHeader = page.getByRole('columnheader', {
+    this.degreeHeader = page.getByRole("columnheader", {
       name: /degree|תואר/i,
     });
-    this.universityHeader = page.getByRole('columnheader', {
+    this.universityHeader = page.getByRole("columnheader", {
       name: /university|אוניברסיטה/i,
     });
-    this.coursesHeader = page.getByRole('columnheader', {
+    this.coursesHeader = page.getByRole("columnheader", {
       name: /courses|קורסים/i,
     });
 
     // Individual degree page elements
-    this.degreeName = page.getByRole('heading', { level: 1 });
-    this.universityName = page.getByRole('heading', { level: 2 });
+    this.degreeName = page.getByRole("heading", { level: 1 });
+    this.universityName = page.getByRole("heading", { level: 2 });
     this.coursesCount = page.getByText(/degree courses|קורסי תואר/i);
     this.noCoursesMessage = page.getByText(
       /no courses available|אין קורסים זמינים/i
     );
-    this.degreeFlow = page.getByTestId('degree-flow');
+    this.degreeFlow = page.getByTestId("degree-flow");
   }
 
   /**
    * Navigate to the degrees list page.
    */
   async goto(): Promise<void> {
-    await this.page.goto('/degrees');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/degrees");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -76,7 +76,7 @@ export class DegreesPage {
    */
   async gotoDegree(degreeId: string): Promise<void> {
     await this.page.goto(`/degrees/${degreeId}`);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -90,51 +90,80 @@ export class DegreesPage {
    * Get a specific degree row by degree name.
    */
   getDegreeRow(degreeName: string): Locator {
-    return this.page.getByRole('row').filter({ hasText: degreeName });
+    return this.page.getByRole("row").filter({ hasText: degreeName });
   }
 
   /**
    * Get the degree link within a specific row.
    */
   getDegreeLinkInRow(degreeName: string): Locator {
-    return this.getDegreeRow(degreeName).getByRole('link');
+    return this.getDegreeRow(degreeName).getByRole("link");
   }
 
   /**
    * Get the university name for a specific degree.
    */
   getUniversityForDegree(degreeName: string): Locator {
-    return this.getDegreeRow(degreeName).getByRole('cell').nth(1);
+    return this.getDegreeRow(degreeName).getByRole("cell").nth(1);
   }
 
   /**
    * Get the courses count for a specific degree.
    */
   getCoursesCountForDegree(degreeName: string): Locator {
-    return this.getDegreeRow(degreeName).getByRole('cell').nth(2);
+    return this.getDegreeRow(degreeName).getByRole("cell").nth(2);
   }
 
   /**
    * Click on a degree link to navigate to its detail page.
    */
   async clickDegree(degreeName: string): Promise<void> {
-    await this.getDegreeLinkInRow(degreeName).click();
-    await this.page.waitForURL((url) => url.pathname.startsWith('/degrees/'));
-    await this.page.waitForLoadState('networkidle');
+    // First try to find the degree in a table row (original structure)
+    const tableExists = (await this.degreesTable.count()) > 0;
+
+    if (tableExists) {
+      // Use the original table-based approach
+      await this.getDegreeLinkInRow(degreeName).click();
+    } else {
+      // Use direct link approach for the current UI structure
+      const degreeLink = this.page
+        .getByRole("link")
+        .filter({ hasText: degreeName });
+      await degreeLink.click();
+    }
+
+    await this.page.waitForURL((url) => url.pathname.startsWith("/degrees/"));
+    await this.page.waitForLoadState("networkidle");
+  }
+
+  /**
+   * Wait for the degrees content to be visible (either table or direct links).
+   */
+  async waitForDegreesContent(): Promise<void> {
+    // Wait for either table or direct degree links to be present
+    const tableExists = (await this.degreesTable.count()) > 0;
+
+    if (tableExists) {
+      await this.degreesTable.waitFor({ state: "visible" });
+    } else {
+      // Wait for the page title and at least one degree link
+      await this.pageTitle.waitFor({ state: "visible" });
+      await this.page.getByRole("link").first().waitFor({ state: "visible" });
+    }
   }
 
   /**
    * Wait for the degrees table to be visible.
    */
   async waitForDegreesTable(): Promise<void> {
-    await this.degreesTable.waitFor({ state: 'visible' });
+    await this.degreesTable.waitFor({ state: "visible" });
   }
 
   /**
    * Wait for the degree flow diagram to be visible.
    */
   async waitForDegreeFlow(): Promise<void> {
-    await this.degreeFlow.waitFor({ state: 'visible' });
+    await this.degreeFlow.waitFor({ state: "visible" });
   }
 
   /**

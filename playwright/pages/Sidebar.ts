@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from "@playwright/test";
 
 /**
  * Page Object Model for interacting with the sidebar navigation.
@@ -6,11 +6,11 @@ import type { Page, Locator } from '@playwright/test';
 export class Sidebar {
   private readonly page: Page;
 
-  readonly universities: Locator;
+  readonly learningResources: Locator;
 
-  readonly courses: Locator;
+  readonly about: Locator;
 
-  readonly dashboard: Locator;
+  readonly contact: Locator;
 
   readonly languageSelector: Locator;
 
@@ -18,56 +18,63 @@ export class Sidebar {
 
   readonly degrees: Locator;
 
+  readonly getStarted: Locator;
+
   constructor(page: Page) {
     this.page = page;
-    this.universities = page.getByRole('link', {
-      name: /universities|אוניברסיטאות/i,
+    this.learningResources = page.getByRole("link", {
+      name: /learning resources/i,
     });
-    this.courses = page.getByRole('link', { name: /courses|קורסים/i });
-    this.dashboard = page.getByRole('link', { name: /dashboard|לוח/i });
-    this.languageSelector = page.getByRole('combobox');
-    this.authButton = page.getByRole('button', {
+    this.about = page.getByRole("link", { name: /about/i });
+    this.contact = page.getByRole("link", { name: /contact/i });
+    this.languageSelector = page.getByRole("combobox");
+    this.authButton = page.getByRole("button", {
       name: /login|logout|התחברות|התנתקות/i,
     });
-    this.degrees = page.getByRole('link', { name: /degrees|תארים/i });
+    this.degrees = page.getByRole("link", { name: /degrees|תארים/i });
+    this.getStarted = page.getByRole("link", { name: /get started/i });
   }
 
   async waitForFullyMounting() {
     await this.waitForCountryFlagToLoad();
   }
 
-  async gotoUniversities(): Promise<void> {
-    await this.universities.click();
+  async gotoLearningResources(): Promise<void> {
+    await this.learningResources.click();
   }
 
-  async gotoCourses(): Promise<void> {
-    await this.courses.click();
+  async gotoAbout(): Promise<void> {
+    await this.about.click();
   }
 
-  async gotoDashboard(): Promise<void> {
-    await this.dashboard.click();
-    await this.page.waitForLoadState('networkidle');
+  async gotoContact(): Promise<void> {
+    await this.contact.click();
   }
 
   async gotoDegrees(): Promise<void> {
     await this.degrees.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
+  }
+
+  async clickGetStarted(): Promise<void> {
+    await this.getStarted.click();
+    await this.page.waitForLoadState("networkidle");
   }
 
   private async waitForCountryFlagToLoad() {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
     const svgSelector = 'img[src$="us.svg"], img[src$="il.svg"]';
     await this.page.$(svgSelector);
   }
 
-  async selectLanguage(lang: 'en' | 'he'): Promise<void> {
+  async selectLanguage(lang: "en" | "he"): Promise<void> {
     await this.languageSelector.click();
-    const option = this.page.getByRole('option', { name: lang.toUpperCase() });
+    const option = this.page.getByRole("option", { name: lang.toUpperCase() });
     await option.click();
     await this.page.waitForSelector(`option[value="${lang}"]`, {
-      state: 'hidden',
+      state: "hidden",
     });
-    await this.page.getByText('ENHE').waitFor({ state: 'detached' });
+    await this.page.getByText("ENHE").waitFor({ state: "detached" });
   }
 
   async clickAuth(): Promise<void> {
