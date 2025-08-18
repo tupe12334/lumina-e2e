@@ -14,6 +14,6 @@ export default defineConfig({
   webServer: {
     command: 'pnpm --dir ../../ run preview',
     port: 4174,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 });

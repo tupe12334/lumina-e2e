@@ -1,5 +1,5 @@
-import type { Page, Locator } from "@playwright/test";
-import { faker } from "@faker-js/faker";
+import type { Page, Locator } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 
 /**
  * Page Object Model for the login screen.
@@ -17,14 +17,14 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.email = page.getByLabel("Email");
-    this.password = page.getByLabel("Password");
-    this.submit = page.getByRole("button", { name: /continue|sign in/i });
-    this.error = page.getByRole("alert");
+    this.email = page.getByLabel('Email');
+    this.password = page.getByLabel('Password');
+    this.submit = page.getByRole('button', { name: /continue|sign in/i });
+    this.error = page.getByRole('alert');
   }
 
   async goto(): Promise<void> {
-    await this.page.goto("/login");
+    await this.page.goto('/login');
   }
 
   async login(email: string, password: string): Promise<void> {
@@ -33,8 +33,20 @@ export class LoginPage {
     await this.email.fill(email);
     await this.password.fill(password);
     await this.submit.click();
-    await this.page.pause();
-    await this.page.waitForNavigation();
+    // In SPA, route changes may not trigger a full navigation. Wait for either onboarding UI or URL change.
+    try {
+      await Promise.race([
+        this.page
+          .locator('#university-select')
+          .waitFor({ state: 'visible', timeout: 15000 }),
+        this.page.waitForURL(/\/(onboarding|my-journey|degrees)(\/|$)/, {
+          timeout: 15000,
+        }),
+      ]);
+    } catch {
+      // Fallback to a network idle to reduce flakiness, but don't hard fail here.
+      await this.page.waitForLoadState('networkidle').catch(() => null);
+    }
   }
 
   async autoLogin(): Promise<{ email: string; password: string }> {
