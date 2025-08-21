@@ -1,44 +1,51 @@
 import { faker } from '@faker-js/faker';
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { Sidebar } from './pages/Sidebar';
+
+async function performSuccessfulRegistration(page: Page) {
+  // Generate test user data
+  const firstName = faker.person.firstName();
+  const lastName = faker.person.lastName();
+  const email = faker.internet.email();
+  const password = faker.internet.password({ length: 12, memorable: true });
+
+  // 1. Navigate to home page
+  await page.goto('/');
+
+  // 2. Wait for sidebar and select language
+  const sidebar = new Sidebar(page);
+  await sidebar.waitForFullyMounting();
+  await sidebar.selectLanguage('en');
+
+  // 3. Navigate to registration page
+  await page.goto('/register');
+  await expect(page).toHaveURL('/register');
+
+  // 4. Fill out registration form
+  await page.getByLabel('First Name').fill(firstName);
+  await page.getByLabel('Last Name').fill(lastName);
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password').fill(password);
+
+  // 5. Accept terms and conditions
+  await page.getByRole('checkbox', { name: /terms/i }).check();
+
+  // 6. Submit registration form
+  await page.getByRole('button', { name: /create account|sign up/i }).click();
+
+  // 7. Verify successful registration - should redirect to onboarding
+  await expect(page).toHaveURL(/\/onboarding/, { timeout: 15000 });
+
+  // 8. Verify onboarding page loads properly
+  await expect(page.locator('#university-select')).toBeVisible({ timeout: 10000 });
+
+  // 9. Take screenshot of successful onboarding page
+  await expect(page).toHaveScreenshot('successful-registration-onboarding.png');
+}
 
 test.describe('User Registration', () => {
   test('User can successfully register with valid information', async ({ page }) => {
-    // Generate test user data
-    const firstName = faker.person.firstName();
-    const lastName = faker.person.lastName();
-    const email = faker.internet.email();
-    const password = faker.internet.password({ length: 12, memorable: true });
-
-    // 1. Navigate to home page
-    await page.goto('/');
-
-    // 2. Wait for sidebar and select language
-    const sidebar = new Sidebar(page);
-    await sidebar.waitForFullyMounting();
-    await sidebar.selectLanguage('en');
-
-    // 3. Navigate to registration page
-    await page.goto('/register');
-    await expect(page).toHaveURL('/register');
-
-    // 4. Fill out registration form
-    await page.getByLabel('First Name').fill(firstName);
-    await page.getByLabel('Last Name').fill(lastName);
-    await page.getByLabel('Email').fill(email);
-    await page.getByLabel('Password').fill(password);
-
-    // 5. Accept terms and conditions
-    await page.getByRole('checkbox', { name: /terms/i }).check();
-
-    // 6. Submit registration form
-    await page.getByRole('button', { name: /create account|sign up/i }).click();
-
-    // 7. Verify successful registration - should redirect to onboarding
-    await expect(page).toHaveURL(/\/onboarding/, { timeout: 15000 });
-
-    // 8. Verify onboarding page loads properly
-    await expect(page.locator('#university-select')).toBeVisible({ timeout: 10000 });
+    await performSuccessfulRegistration(page);
   });
 
   test('Registration form shows validation errors for invalid data', async ({ page }) => {
@@ -59,6 +66,9 @@ test.describe('User Registration', () => {
     await expect(page.getByText(/last name is required/i)).toBeVisible();
     await expect(page.getByText(/email is required/i)).toBeVisible();
     await expect(page.getByText(/password is required/i)).toBeVisible();
+
+    // 4. Take screenshot of validation errors
+    await expect(page).toHaveScreenshot('registration-validation-errors.png');
   });
 
   test('Registration form shows error for invalid email format', async ({ page }) => {
@@ -81,6 +91,9 @@ test.describe('User Registration', () => {
 
     // 4. Verify email validation error
     await expect(page.getByText(/invalid email/i)).toBeVisible();
+
+    // 5. Take screenshot of email validation error
+    await expect(page).toHaveScreenshot('registration-invalid-email-error.png');
   });
 
   test('Registration form shows error for duplicate email', async ({ page }) => {
@@ -116,6 +129,9 @@ test.describe('User Registration', () => {
 
     // 3. Verify duplicate email error
     await expect(page.getByText(/email already exists|user already exists/i)).toBeVisible({ timeout: 10000 });
+
+    // 4. Take screenshot of duplicate email error
+    await expect(page).toHaveScreenshot('registration-duplicate-email-error.png');
   });
 
   test('User can navigate from registration to login page', async ({ page }) => {
@@ -131,6 +147,9 @@ test.describe('User Registration', () => {
 
     // 3. Verify navigation to login page
     await expect(page).toHaveURL('/login');
+
+    // 4. Take screenshot of login page from registration navigation
+    await expect(page).toHaveScreenshot('registration-to-login-navigation.png');
   });
 
   test('Registration form requires terms acceptance', async ({ page }) => {
@@ -158,5 +177,8 @@ test.describe('User Registration', () => {
 
     // 4. Verify terms validation error
     await expect(page.getByText(/terms.*required/i)).toBeVisible();
+
+    // 5. Take screenshot of terms validation error
+    await expect(page).toHaveScreenshot('registration-terms-required-error.png');
   });
 });

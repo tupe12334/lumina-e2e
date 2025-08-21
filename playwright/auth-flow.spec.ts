@@ -17,9 +17,15 @@ test.describe('Authentication Flow', () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
     await loginPage.login(email, password);
+
+    // Take screenshot after login before onboarding
+    await expect(page).toHaveScreenshot('login-complete-before-onboarding.png');
     const onboarding = new OnboardingPage(page);
     await onboarding.selectUniversity('The Open University Of Israel');
     await onboarding.selectDegree('Economics');
+
+    // Take screenshot of onboarding form filled
+    await expect(page).toHaveScreenshot('onboarding-form-filled.png');
     await onboarding.toggleAdvancedSection();
     await onboarding.setAddAllDegreeCourses(false);
     await onboarding.setAddAllDegreeCourses(true);
@@ -27,6 +33,9 @@ test.describe('Authentication Flow', () => {
     await expect(page).toHaveURL('/my-journey');
     await page.waitForLoadState('networkidle');
     await page.waitForLoadState('domcontentloaded');
+
+    // Take screenshot of completed auth flow
+    await expect(page).toHaveScreenshot('auth-flow-completion.png');
   });
   test('Should redirect me to login in those pages', () => {});
   test.skip('Sign up and stop in the middle, make sure when try to access protected page it will redirect the user to onboarding', () => {});

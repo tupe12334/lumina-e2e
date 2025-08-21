@@ -40,6 +40,9 @@ test.describe('Comprehensive User Journeys', () => {
       const journeyPage = new LearningJourneyPage(page);
       await journeyPage.verifyJourneyProgression();
       
+      // 7. Take screenshot of completed onboarding journey
+      await expect(page).toHaveScreenshot('complete-user-journey-my-journey.png');
+      
       // 7. Verify user can see available courses
       const courses = await journeyPage.getAllCourses();
       expect(courses.length).toBeGreaterThan(0);
@@ -83,6 +86,9 @@ test.describe('Comprehensive User Journeys', () => {
       
       // 6. Verify successful completion
       await expect(page).toHaveURL('/my-journey');
+      
+      // 7. Take screenshot of recovered onboarding completion
+      await expect(page).toHaveScreenshot('recovered-onboarding-completion.png');
     });
   });
 
@@ -101,6 +107,9 @@ test.describe('Comprehensive User Journeys', () => {
       // 3. Check initial progress state
       const initialProgress = await journeyPage.getOverallProgress();
       expect(initialProgress).toBeGreaterThanOrEqual(0);
+      
+      // 4. Take screenshot of learning journey dashboard
+      await expect(onboardedPage).toHaveScreenshot('learning-journey-dashboard.png');
       
       // 4. Verify course availability
       const courses = await journeyPage.getAllCourses();
@@ -133,7 +142,6 @@ test.describe('Comprehensive User Journeys', () => {
       // 1. Get initial progress
       await journeyPage.goto();
       const initialProgress = await journeyPage.getOverallProgress();
-      const initialCompletedCount = await journeyPage.getCompletedCoursesCount();
       
       // 2. Start a course if available
       const courses = await journeyPage.getAllCourses();
@@ -148,6 +156,8 @@ test.describe('Comprehensive User Journeys', () => {
         
         try {
           await questionPage.waitForQuestionLoad();
+          // Take screenshot of question page
+          await expect(onboardedPage).toHaveScreenshot('question-page-loaded.png');
           await questionPage.completeQuestionFlow(0); // Answer first option
         } catch {
           // Not on a question page, that's fine
@@ -182,7 +192,8 @@ test.describe('Comprehensive User Journeys', () => {
       );
       
       if (!availableCourse) {
-        test.skip('No available courses to test questions');
+        test.skip();
+        return;
       }
       
       await journeyPage.clickCourse(availableCourse!.name);
@@ -205,6 +216,9 @@ test.describe('Comprehensive User Journeys', () => {
         // 4. Verify feedback appears
         await questionPage.waitForAnswerFeedback();
         
+        // Take screenshot of answer feedback
+        await expect(onboardedPage).toHaveScreenshot('question-answer-feedback.png');
+        
         // 5. Provide question feedback
         await questionPage.provideFeedback('like');
         
@@ -223,16 +237,15 @@ test.describe('Comprehensive User Journeys', () => {
         
       } catch (error) {
         if (error instanceof Error && error.message.includes('waitForQuestionLoad')) {
-          test.skip('Page does not contain questions');
+          test.skip();
+          return;
         }
         throw error;
       }
     });
 
     test('User feedback is properly recorded and affects recommendations', async ({ 
-      onboardedPage,
-      apiClient,
-      onboardedUser 
+      onboardedPage
     }) => {
       const journeyPage = new LearningJourneyPage(onboardedPage);
       await journeyPage.goto();
@@ -244,7 +257,8 @@ test.describe('Comprehensive User Journeys', () => {
       );
       
       if (!availableCourse) {
-        test.skip('No available courses for feedback testing');
+        test.skip();
+        return;
       }
       
       await journeyPage.clickCourse(availableCourse!.name);
@@ -271,7 +285,8 @@ test.describe('Comprehensive User Journeys', () => {
         
       } catch (error) {
         if (error instanceof Error && error.message.includes('waitForQuestionLoad')) {
-          test.skip('Page does not contain questions');
+          test.skip();
+          return;
         }
         throw error;
       }
@@ -302,6 +317,9 @@ test.describe('Comprehensive User Journeys', () => {
       // 5. Verify functionality still works
       const hebrewCourses = await journeyPage.getAllCourses();
       const hebrewProgress = await journeyPage.getOverallProgress();
+      
+      // Take screenshot of Hebrew interface
+      await expect(onboardedPage).toHaveScreenshot('journey-page-hebrew.png');
       
       // Progress should be maintained
       expect(hebrewProgress).toBe(progress);
@@ -346,6 +364,9 @@ test.describe('Comprehensive User Journeys', () => {
       
       const recoveredCourses = await journeyPage.getAllCourses();
       expect(recoveredCourses.length).toBe(initialCourses.length);
+      
+      // Take screenshot of recovered page
+      await expect(onboardedPage).toHaveScreenshot('network-error-recovery.png');
     });
 
     test('User receives appropriate error messages for invalid actions', async ({ 
