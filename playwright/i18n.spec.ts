@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { Sidebar } from './pages/Sidebar';
 test.describe('i18n', () => {
-  test('should switch from English to Hebrew and back', async ({ page }) => {
+  test('should switch from English to Hebrew and back @smoke', async ({ page }) => {
     await page.goto('/');
 
     const sidebar = new Sidebar(page);

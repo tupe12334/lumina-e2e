@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test("Check API calls on degrees page", async ({ page }) => {
+test("Check API calls on degrees page @smoke", async ({ page }) => {
   console.log("Monitoring API calls...");
 
   // Monitor network requests

@@ -25,7 +25,14 @@
     "test:install": "playwright install",
     "test:report": "playwright show-report",
     "test:clean": "rm -rf test-results playwright-report",
-    "test:ai": "playwright test --reporter=dot,json"
+    "test:ai": "playwright test --reporter=dot,json",
+    "test:visual": "playwright test --grep='@visual'",
+    "test:visual-update": "playwright test --grep='@visual' --update-snapshots",
+    "test:visual-component": "playwright test --grep='@visual-component'",
+    "test:visual-regression": "playwright test visual-regression.spec.ts",
+    "test:screenshots": "playwright test component-screenshots.spec.ts",
+    "test:screenshots-update": "playwright test component-screenshots.spec.ts --update-snapshots",
+    "test:cross-browser-visual": "playwright test --grep='@cross-browser'"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.0",

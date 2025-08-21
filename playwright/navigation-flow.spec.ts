@@ -2,7 +2,7 @@ import test, { expect } from '@playwright/test';
 import { Sidebar } from './pages/Sidebar';
 
 test.describe('Navigation Flow', () => {
-  test('Navigate from home page to degrees page via Get Started button', async ({
+  test('Navigate from home page to degrees page via Get Started button @smoke', async ({
     page,
   }) => {
     // Start at the home page

@@ -38,6 +38,22 @@ export default defineConfig({
     },
   },
 
+  // Visual testing configuration
+  expect: {
+    timeout: 15000, // 15 seconds for assertions
+    // Screenshot comparison settings
+    toHaveScreenshot: {
+      threshold: 0.2, // Allow 20% pixel difference
+      maxDiffPixels: 1000, // Maximum number of different pixels
+      mode: 'strict', // Strict comparison mode
+      animations: 'disabled', // Disable animations for consistent screenshots
+    },
+    toMatchSnapshot: {
+      threshold: 0.2,
+      maxDiffPixels: 1000,
+    },
+  },
+
   projects: [
     {
       name: 'chromium',
