@@ -1,4 +1,4 @@
-import { test as base, Page, BrowserContext } from '@playwright/test';
+import { test as base, Page } from '@playwright/test';
 import { TestDataManager, TestUser } from '../utils/test-data';
 import { LuminaApiClient } from '../utils/api-client';
 import { LoginPage } from '../pages/LoginPage';

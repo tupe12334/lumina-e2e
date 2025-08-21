@@ -15,7 +15,7 @@ This directory contains the comprehensive end-to-end testing suite for the Lumin
 
 ## 📁 Project Structure
 
-```
+```text
 playwright/
 ├── config/
 │   └── environments.ts          # Environment configurations
@@ -40,6 +40,7 @@ playwright/
 ## 🎯 Test Categories
 
 ### Core User Journeys
+
 - **Authentication Flow**: Registration, login, logout, password reset
 - **Onboarding Process**: University selection, degree setup, preferences
 - **Learning Journey**: Course navigation, progress tracking, achievements
@@ -47,6 +48,7 @@ playwright/
 - **Multi-language Support**: Language switching, content localization
 
 ### Regression Tests
+
 - **API Integration**: Backend service interactions
 - **Data Persistence**: User state across sessions
 - **Error Handling**: Network issues, invalid inputs
@@ -55,6 +57,7 @@ playwright/
 ## 🛠️ Getting Started
 
 ### Prerequisites
+
 ```bash
 # Install dependencies
 pnpm install
@@ -66,6 +69,7 @@ pnpm test:install
 ### Running Tests
 
 #### Basic Test Execution
+
 ```bash
 # Run all tests
 pnpm test:e2e
@@ -78,6 +82,7 @@ pnpm test:e2e:debug
 ```
 
 #### Browser-Specific Tests
+
 ```bash
 # Chrome only
 pnpm test:e2e:chrome
@@ -93,6 +98,7 @@ pnpm test:e2e:mobile
 ```
 
 #### Environment-Specific Tests
+
 ```bash
 # Local development
 pnpm test:e2e:local
@@ -108,6 +114,7 @@ pnpm test:e2e:prod
 ```
 
 #### Test Categories
+
 ```bash
 # Smoke tests (critical functionality)
 pnpm test:smoke
@@ -123,6 +130,7 @@ pnpm test:journey
 ```
 
 ### Advanced Options
+
 ```bash
 # Run in headed mode (see browser)
 pnpm test:e2e:headed
@@ -140,6 +148,7 @@ pnpm test:clean
 ## 🔧 Configuration
 
 ### Environment Variables
+
 ```bash
 # Test environment (local, development, staging, production)
 E2E_ENVIRONMENT=local
@@ -180,17 +189,21 @@ Configure different environments in `playwright/config/environments.ts`:
 The test suite generates comprehensive reports:
 
 ### HTML Report
+
 - Interactive test results with screenshots and traces
 - Access via `pnpm test:report`
 
 ### CI Reports
+
 - **JUnit XML**: For CI/CD integration
 - **GitHub Actions**: Native GitHub integration
 - **JSON Report**: Machine-readable results
 - **Markdown Summary**: Human-readable summary with failure analysis
 
 ### Debug Information
+
 When tests fail, the suite automatically captures:
+
 - Screenshots at point of failure
 - Page HTML source
 - Console logs
@@ -202,6 +215,7 @@ When tests fail, the suite automatically captures:
 ## 🏗️ Writing Tests
 
 ### Using Test Fixtures
+
 ```typescript
 import { test, expect } from './fixtures/auth-fixtures';
 
@@ -212,6 +226,7 @@ test('User journey with authenticated user', async ({ onboardedPage }) => {
 ```
 
 ### Page Object Pattern
+
 ```typescript
 import { LearningJourneyPage } from './pages/LearningJourneyPage';
 
@@ -223,6 +238,7 @@ test('Navigate learning journey', async ({ onboardedPage }) => {
 ```
 
 ### Enhanced Debugging
+
 ```typescript
 import { DebugHelpers } from './utils/debug-helpers';
 
@@ -239,6 +255,7 @@ test('Test with debug helpers', async ({ page, testInfo }) => {
 ```
 
 ### API Testing
+
 ```typescript
 import { LuminaApiClient } from './utils/api-client';
 
@@ -268,28 +285,33 @@ test('Complex user journey @regression @journey', async ({ page }) => {
 ### Common Issues
 
 #### Tests Failing Intermittently
+
 - Check network conditions and add appropriate waits
 - Verify element selectors are stable
 - Consider increasing timeouts for slow operations
 
 #### Authentication Issues
+
 - Verify test user credentials are valid
 - Check if authentication tokens are properly set
 - Ensure cleanup doesn't affect other tests
 
 #### Environment Issues
+
 - Verify all services are running
 - Check environment configuration
 - Validate required environment variables
 
 ### Debug Mode
 Run tests in debug mode for step-by-step execution:
+
 ```bash
 DEBUG_TESTS=true pnpm test:e2e:debug
 ```
 
 ### Viewing Test Reports
 After test runs, view detailed reports:
+
 ```bash
 pnpm test:report
 ```

@@ -1,6 +1,7 @@
 import type { TestResult, TestCase, FullResult, Reporter } from '@playwright/test/reporter';
 import { promises as fs } from 'fs';
 import path from 'path';
+import * as process from 'process';
 
 /**
  * Custom reporter for enhanced CI/CD integration
@@ -10,7 +11,7 @@ export class CIReporter implements Reporter {
     test: TestCase;
     result: TestResult;
     duration: number;
-    status: 'passed' | 'failed' | 'timedOut' | 'skipped';
+    status: 'passed' | 'failed' | 'timedOut' | 'skipped' | 'interrupted';
     error?: string;
     failureScreenshot?: string;
   }> = [];
@@ -47,7 +48,7 @@ export class CIReporter implements Reporter {
     this.logFinalSummary(summary);
     
     // Set exit code based on results
-    if (summary.failed > 0) {
+    if (summary.summary.failed > 0) {
       process.exitCode = 1;
     }
   }
@@ -159,7 +160,7 @@ export class CIReporter implements Reporter {
 
   private async generateMarkdownReport(summary: any): Promise<string> {
     const { summary: testSummary, timing, failedTests, slowestTests, environment } = summary;
-    const statusIcon = testSummary.failed > 0 ? '❌' : '✅';
+    const statusIcon = testSummary.summary.failed > 0 ? '❌' : '✅';
     
     let report = `# E2E Test Report ${statusIcon}\n\n`;
     report += `**Generated:** ${summary.timestamp}\n`;
@@ -172,7 +173,7 @@ export class CIReporter implements Reporter {
     report += `|--------|-------|\n`;
     report += `| Total Tests | ${testSummary.total} |\n`;
     report += `| ✅ Passed | ${testSummary.passed} |\n`;
-    report += `| ❌ Failed | ${testSummary.failed} |\n`;
+    report += `| ❌ Failed | ${testSummary.summary.failed} |\n`;
     report += `| ⏭️ Skipped | ${testSummary.skipped} |\n`;
     report += `| ⏱️ Timed Out | ${testSummary.timedOut} |\n`;
     report += `| 📊 Pass Rate | ${testSummary.passRate}% |\n`;
@@ -214,8 +215,8 @@ export class CIReporter implements Reporter {
     const { summary: testSummary, timing } = summary;
     
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    xml += `<testsuites name="E2E Tests" tests="${testSummary.total}" failures="${testSummary.failed}" time="${timing.totalDuration / 1000}">\n`;
-    xml += `  <testsuite name="Playwright E2E" tests="${testSummary.total}" failures="${testSummary.failed}" time="${timing.totalDuration / 1000}">\n`;
+    xml += `<testsuites name="E2E Tests" tests="${testSummary.total}" failures="${testSummary.summary.failed}" time="${timing.totalDuration / 1000}">\n`;
+    xml += `  <testsuite name="Playwright E2E" tests="${testSummary.total}" failures="${testSummary.summary.failed}" time="${timing.totalDuration / 1000}">\n`;
     
     for (const testResult of this.testResults) {
       const testName = `${testResult.test.parent.title} > ${testResult.test.title}`;
@@ -318,13 +319,13 @@ export class CIReporter implements Reporter {
     console.log('📊 E2E TEST SUMMARY');
     console.log('='.repeat(60));
     console.log(`✅ Passed:     ${testSummary.passed}/${testSummary.total} (${testSummary.passRate}%)`);
-    console.log(`❌ Failed:     ${testSummary.failed}`);
+    console.log(`❌ Failed:     ${testSummary.summary.failed}`);
     console.log(`⏭️ Skipped:    ${testSummary.skipped}`);
     console.log(`⏱️ Timed Out:  ${testSummary.timedOut}`);
     console.log(`⏱️ Duration:   ${timing.totalDurationFormatted}`);
     console.log('='.repeat(60));
     
-    if (testSummary.failed > 0) {
+    if (testSummary.summary.failed > 0) {
       console.log('❌ Some tests failed. Check the reports for details.');
     } else {
       console.log('✅ All tests passed!');

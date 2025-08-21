@@ -2,6 +2,7 @@ import { chromium, FullConfig, request } from '@playwright/test';
 import { LuminaApiClient } from './utils/api-client';
 import { promises as fs } from 'fs';
 import path from 'path';
+import * as process from 'process';
 
 async function globalTeardown(config: FullConfig) {
   const baseURL = config.projects[0].use.baseURL || 'http://localhost:4174';
@@ -28,7 +29,7 @@ async function globalTeardown(config: FullConfig) {
     const apiClient = new LuminaApiClient(requestContext);
     
     // Get test data manager from global state if available
-    const testDataManager = (global as any).__testDataManager__;
+    const testDataManager = (globalThis as any).__testDataManager__;
     if (testDataManager) {
       const createdUsers = testDataManager.getCreatedUsers();
       const createdData = testDataManager.getCreatedData();
@@ -59,8 +60,8 @@ async function globalTeardown(config: FullConfig) {
         startTime: startTime,
         endTime: endTime.toISOString(),
         duration: `${Math.round(duration / 1000)}s`,
-        consoleLogs: (global as any).__consoleLogs__ || [],
-        networkActivity: (global as any).__networkActivity__ || [],
+        consoleLogs: (globalThis as any).__consoleLogs__ || [],
+        networkActivity: (globalThis as any).__networkActivity__ || [],
       };
       
       // Save test run summary
@@ -78,9 +79,9 @@ async function globalTeardown(config: FullConfig) {
     await browser.close();
     
     // Clear global state
-    delete (global as any).__consoleLogs__;
-    delete (global as any).__networkActivity__;
-    delete (global as any).__testDataManager__;
+    delete (globalThis as any).__consoleLogs__;
+    delete (globalThis as any).__networkActivity__;
+    delete (globalThis as any).__testDataManager__;
     
     console.log('✅ Global E2E test teardown completed');
   }
