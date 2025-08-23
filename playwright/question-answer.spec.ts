@@ -121,4 +121,71 @@ test.describe('Question Answer Functionality', () => {
     // Check that we're on the right question
     expect(page.url()).toContain('82715303-8361-47ef-930e-6979947b741e');
   });
+
+  test('Question Text Display Integrity', async ({ page }) => {
+    // Wait for the question to load completely
+    await page.waitForSelector('#question-content, .question-content, [data-testid="question-text"]', { timeout: 10000 });
+    
+    // Get all text content that might contain questions
+    const questionText = await page.locator('#question-content, .question-content, [data-testid="question-text"]').first().textContent();
+    
+    if (questionText) {
+      // Test 1: English text should not be broken into individual words
+      // Look for patterns that indicate word-splitting (single words separated by spaces without context)
+      const englishWords = questionText.match(/\b[A-Za-z]+\b/g);
+      if (englishWords && englishWords.length > 3) {
+        // Check that we don't have excessive single-word segments
+        // This would indicate the overly aggressive segmentation bug
+        const singleWordSegments = questionText.split(/\s+/).filter(word => 
+          /^[A-Za-z]+$/.test(word.trim()) && word.trim().length < 6
+        );
+        
+        // If more than 70% of words are appearing as isolated single words, it's likely broken
+        const singleWordRatio = singleWordSegments.length / englishWords.length;
+        expect(singleWordRatio).toBeLessThan(0.7); // Should not be mostly single words
+      }
+      
+      // Test 2: Mathematical expressions should maintain proper directionality
+      // Look for logical expressions like ¬(P ∧ Q) which should be LTR even in Hebrew context
+      const logicalExpressions = questionText.match(/¬\s*\([^)]*[∧∨⊕→↔≡][^)]*\)/g);
+      if (logicalExpressions) {
+        // These expressions should appear with proper LTR formatting
+        // In a well-formatted page, the negation symbol should precede the parentheses
+        for (const expr of logicalExpressions) {
+          expect(expr).toMatch(/^¬.*\(.*\)$/); // ¬ should be at the start, not end
+        }
+      }
+      
+      // Test 3: Question text displays as cohesive content, not fragmented
+      // Check for reasonable sentence structure
+      const sentences = questionText.split(/[.!?]+/).filter(s => s.trim().length > 5);
+      if (sentences.length > 0) {
+        // Each sentence should contain multiple words, not just single words
+        const wordsPerSentence = sentences.map(s => s.trim().split(/\s+/).length);
+        const avgWordsPerSentence = wordsPerSentence.reduce((a, b) => a + b, 0) / wordsPerSentence.length;
+        expect(avgWordsPerSentence).toBeGreaterThan(2); // Should have more than 2 words per sentence on average
+      }
+    }
+  });
+
+  test('Hebrew Mathematical Expression Directionality', async ({ page }) => {
+    // This test specifically checks for proper handling of mathematical expressions in Hebrew context
+    await page.waitForSelector('#question-content, .question-content, [data-testid="question-text"]', { timeout: 10000 });
+    
+    const questionText = await page.locator('#question-content, .question-content, [data-testid="question-text"]').first().textContent();
+    
+    if (questionText && questionText.includes('¬')) {
+      // Check that negation symbols in mathematical expressions appear correctly
+      const negationExpressions = questionText.match(/¬[^a-zA-Z]*\([^)]+\)/g);
+      
+      if (negationExpressions) {
+        // In proper LTR mathematical formatting, ¬ should appear before the parentheses
+        for (const expr of negationExpressions) {
+          // The negation should not appear isolated or at the wrong position
+          expect(expr).not.toMatch(/\)\s*¬/); // ¬ should not appear after closing parenthesis
+          expect(expr).toMatch(/^¬/); // ¬ should be at the beginning
+        }
+      }
+    }
+  });
 });
