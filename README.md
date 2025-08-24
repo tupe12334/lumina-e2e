@@ -42,7 +42,7 @@ playwright/
 ### Core User Journeys
 
 - **Authentication Flow**: Registration, login, logout, password reset
-- **Onboarding Process**: University selection, degree setup, preferences
+- **Onboarding Process**: Institution selection, degree setup, preferences
 - **Learning Journey**: Course navigation, progress tracking, achievements
 - **Question Interactions**: Answering questions, providing feedback, navigation
 - **Multi-language Support**: Language switching, content localization
