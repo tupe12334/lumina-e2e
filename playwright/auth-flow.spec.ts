@@ -21,7 +21,7 @@ test.describe('Authentication Flow', () => {
     // Take screenshot after login before onboarding
     await expect(page).toHaveScreenshot('login-complete-before-onboarding.png');
     const onboarding = new OnboardingPage(page);
-    await onboarding.selectUniversity('The Open University Of Israel');
+    await onboarding.selectInstitution('The Open University Of Israel');
     await onboarding.selectDegree('Economics');
 
     // Take screenshot of onboarding form filled

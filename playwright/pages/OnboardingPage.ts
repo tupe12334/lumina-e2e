@@ -29,9 +29,9 @@ export class OnboardingPage {
   }
 
   /**
-   * Select university using the enhanced select component.
+   * Select institution using the enhanced select component.
    */
-  async selectUniversity(name: string): Promise<void> {
+  async selectInstitution(name: string): Promise<void> {
     // Click to open dropdown
     await this.universitySelect.click();
     

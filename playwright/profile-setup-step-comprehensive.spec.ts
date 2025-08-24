@@ -95,7 +95,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Select university
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Verify university is displayed in button
       await expect(onboardingPage.universitySelect).toContainText(/open university/i);
@@ -154,7 +154,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Select university first
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Open degree dropdown
       await onboardingPage.degreeSelect.click();
@@ -171,7 +171,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
     test('should allow degree search and selection', async ({ page, testDataManager }) => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.searchDegree('Computer');
       
       // Verify filtered results
@@ -188,7 +188,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Select only university
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Verify no degree message appears
       const isVisible = await onboardingPage.isNoDegreeMessageVisible();
@@ -198,7 +198,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
     test('should allow completing onboarding without degree selection', async ({ page, testDataManager }) => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.agreeAndFinish();
       
       // Should successfully complete onboarding
@@ -214,7 +214,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       await expect(onboardingPage.advancedSectionButton).not.toBeVisible();
       
       // Select university only - still no advanced options
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await expect(onboardingPage.advancedSectionButton).not.toBeVisible();
       
       // Select degree - now advanced options should appear
@@ -225,7 +225,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
     test('should toggle advanced options visibility', async ({ page, testDataManager }) => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Initially options should be hidden
@@ -246,7 +246,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
     test('should handle "add all degree courses" checkbox', async ({ page, testDataManager }) => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.toggleAdvancedSection();
       
@@ -268,7 +268,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Complete other required fields
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Try to submit without agreeing to terms
       await onboardingPage.finishButton.click();
@@ -288,7 +288,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
     test('should allow completion after agreeing to terms', async ({ page, testDataManager }) => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.agreeAndFinish();
       
@@ -397,7 +397,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Select university successfully
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Degree loading should show error
       const hasError = await onboardingPage.hasDegreeError();
@@ -408,7 +408,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Fill form partially
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Simulate network interruption
@@ -427,7 +427,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Complete comprehensive flow
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.toggleAdvancedSection();
       await onboardingPage.setAddAllDegreeCourses(true);
@@ -447,7 +447,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       await onboardingPage.finishButton.click();
       
       // Fix errors one by one
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Try again - should still have terms error
       await onboardingPage.finishButton.click();
@@ -465,7 +465,7 @@ test.describe('ProfileSetupStep - Comprehensive E2E Tests', () => {
       const { onboardingPage } = await navigateToProfileSetup(page, testDataManager);
       
       // Partially complete form
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Navigate away and back

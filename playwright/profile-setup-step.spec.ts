@@ -134,7 +134,7 @@ test.describe('ProfileSetupStep Component', () => {
       await expect(degreeSelect).toBeDisabled();
       
       // Select university first
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Now degree select should become enabled
       await expect(degreeSelect).toBeEnabled();
@@ -153,7 +153,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Select university
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Click degree dropdown
       await onboardingPage.degreeSelect.click();
@@ -178,7 +178,7 @@ test.describe('ProfileSetupStep Component', () => {
       await page.goto('/');
       await loginPage.login(userData.email, userData.password);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.degreeSelect.click();
       
       // Search for Computer Science
@@ -205,7 +205,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Select only university, not degree
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Should show "no degree" informational message
       const noDegreeMessage = page.locator('#profile-no-degree-message, text=/you can always add/i, text=/תוכל תמיד להוסיף/i');
@@ -233,7 +233,7 @@ test.describe('ProfileSetupStep Component', () => {
       await expect(onboardingPage.advancedSectionButton).not.toBeVisible();
       
       // Select university only - still no advanced options
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await expect(onboardingPage.advancedSectionButton).not.toBeVisible();
       
       // Select degree - now advanced options should appear
@@ -252,7 +252,7 @@ test.describe('ProfileSetupStep Component', () => {
       await page.goto('/');
       await loginPage.login(userData.email, userData.password);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Initially advanced options content should be hidden
@@ -278,7 +278,7 @@ test.describe('ProfileSetupStep Component', () => {
       await page.goto('/');
       await loginPage.login(userData.email, userData.password);
       
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.toggleAdvancedSection();
       
@@ -308,7 +308,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Complete university and degree selection
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Try to finish without agreeing to terms
@@ -334,7 +334,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Complete full onboarding flow
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.agreeAndFinish();
       
@@ -464,7 +464,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Select university successfully
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Degree loading should fail
       const degreeErrorMessage = page.locator('text=/failed to load degrees/i, text=/error.*degree/i');
@@ -534,7 +534,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Complete full workflow
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.toggleAdvancedSection();
       await onboardingPage.setAddAllDegreeCourses(true);
@@ -559,7 +559,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Select university but skip degree
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // Verify no degree message appears
       const noDegreeMessage = page.locator('#profile-no-degree-message, text=/you can always add/i');
@@ -600,7 +600,7 @@ test.describe('ProfileSetupStep Component', () => {
       await expect(page).toHaveURL(/\/onboarding/);
       
       // Fix one error at a time
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       
       // University error should disappear
       await expect(universityError).not.toBeVisible();
@@ -625,7 +625,7 @@ test.describe('ProfileSetupStep Component', () => {
       await loginPage.login(userData.email, userData.password);
       
       // Partially complete form
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       
       // Navigate away
@@ -661,7 +661,7 @@ test.describe('ProfileSetupStep Component', () => {
       await expect(page.locator('#profile-setup-step')).toHaveScreenshot('profile-setup-initial-desktop.png');
       
       // After university selection
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await expect(page.locator('#profile-setup-step')).toHaveScreenshot('profile-setup-university-selected-desktop.png');
       
       // After degree selection

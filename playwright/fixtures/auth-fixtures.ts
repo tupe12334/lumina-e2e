@@ -125,7 +125,7 @@ export const test = base.extend<AuthFixtures>({
     await loginPage.login(authenticatedUser.email, authenticatedUser.password);
     
     const onboardingPage = new OnboardingPage(page);
-    await onboardingPage.selectUniversity('The Open University Of Israel');
+    await onboardingPage.selectInstitution('The Open University Of Israel');
     await onboardingPage.selectDegree('Economics');
     await onboardingPage.agreeAndFinish();
     

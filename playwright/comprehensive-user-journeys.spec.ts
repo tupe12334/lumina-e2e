@@ -27,7 +27,7 @@ test.describe('Comprehensive User Journeys', () => {
       
       // 4. Complete onboarding
       const onboardingPage = new OnboardingPage(page);
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       await onboardingPage.selectDegree('Computer Science');
       await onboardingPage.toggleAdvancedSection();
       await onboardingPage.setAddAllDegreeCourses(true);
@@ -69,7 +69,7 @@ test.describe('Comprehensive User Journeys', () => {
       
       // 2. Start but don't complete onboarding
       const onboardingPage = new OnboardingPage(page);
-      await onboardingPage.selectUniversity('The Open University Of Israel');
+      await onboardingPage.selectInstitution('The Open University Of Israel');
       // Intentionally don't select degree or finish
       
       // 3. Navigate away from onboarding

@@ -141,7 +141,7 @@ test.describe("Course Status changes", () => {
     const { email, password } = await loginPage.autoLogin();
 
     const onboarding = new OnboardingPage(page);
-    await onboarding.selectUniversity("The Open University Of Israel");
+    await onboarding.selectInstitution("The Open University Of Israel");
     await onboarding.selectDegree("Economics");
     await onboarding.toggleAdvancedSection();
     await onboarding.setAddAllDegreeCourses(false);

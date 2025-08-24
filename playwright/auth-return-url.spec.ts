@@ -42,7 +42,7 @@ test.describe('Authentication Return URL Flow', () => {
 
     // After successful login, complete onboarding
     const onboarding = new OnboardingPage(page);
-    await onboarding.selectUniversity('The Open University Of Israel');
+    await onboarding.selectInstitution('The Open University Of Israel');
     await onboarding.selectDegree('Economics');
     await onboarding.agreeAndFinish();
 
@@ -139,7 +139,7 @@ test.describe('Authentication Return URL Flow', () => {
 
     // Should go to default destination (onboarding for new users)
     const onboarding = new OnboardingPage(page);
-    await onboarding.selectUniversity('The Open University Of Israel');
+    await onboarding.selectInstitution('The Open University Of Israel');
     await onboarding.selectDegree('Economics');
     await onboarding.agreeAndFinish();
 
@@ -216,7 +216,7 @@ test.describe('Authentication Return URL Flow', () => {
 
     // Complete onboarding
     const onboarding = new OnboardingPage(page);
-    await onboarding.selectUniversity('The Open University Of Israel');
+    await onboarding.selectInstitution('The Open University Of Israel');
     await onboarding.selectDegree('Economics');
     await onboarding.agreeAndFinish();
 
