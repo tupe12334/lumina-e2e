@@ -246,4 +246,245 @@ export class ScreenshotHelpers {
     await this.visualHelpers.prepareForScreenshot();
     await expect(element).toHaveScreenshot(`${baseName}-after-change.png`);
   }
+
+  /**
+   * Take screenshot with metadata annotations
+   */
+  async takeAnnotatedScreenshot(
+    name: string,
+    metadata: {
+      description: string;
+      testType: string;
+      viewport: string;
+      browser?: string;
+    },
+    options: {
+      fullPage?: boolean;
+      mask?: Locator[];
+    } = {}
+  ) {
+    const { fullPage = false, mask = [] } = options;
+    
+    // Store metadata for reporting
+    const timestamp = new Date().toISOString();
+    const annotationData = {
+      ...metadata,
+      timestamp,
+      filename: `${name}.png`
+    };
+    
+    // Store in page context for potential report generation
+    await this.page.evaluate((data) => {
+      (window as any).__screenshotMetadata = (window as any).__screenshotMetadata || [];
+      (window as any).__screenshotMetadata.push(data);
+    }, annotationData);
+    
+    await this.visualHelpers.prepareForScreenshot();
+    return expect(this.page).toHaveScreenshot(`${name}.png`, {
+      fullPage,
+      mask
+    });
+  }
+
+  /**
+   * Take screenshot with element highlighted
+   */
+  async takeScreenshotWithHighlight(
+    element: Locator,
+    name: string,
+    highlightOptions: {
+      borderColor?: string;
+      borderWidth?: number;
+      backgroundColor?: string;
+    } = {}
+  ) {
+    const { borderColor = 'red', borderWidth = 2, backgroundColor } = highlightOptions;
+    
+    // Add highlight styling
+    await element.evaluate((el, options) => {
+      el.style.outline = `${options.borderWidth}px solid ${options.borderColor}`;
+      if (options.backgroundColor) {
+        el.style.backgroundColor = options.backgroundColor;
+      }
+      el.style.outlineOffset = '2px';
+    }, { borderColor, borderWidth, backgroundColor });
+    
+    await this.visualHelpers.prepareForScreenshot();
+    const result = await expect(this.page).toHaveScreenshot(`${name}.png`);
+    
+    // Remove highlight styling
+    await element.evaluate((el) => {
+      el.style.outline = '';
+      el.style.outlineOffset = '';
+      el.style.backgroundColor = '';
+    });
+    
+    return result;
+  }
+
+  /**
+   * Take component screenshot with description
+   */
+  async takeComponentScreenshot(
+    element: Locator,
+    name: string,
+    description: string
+  ) {
+    await this.page.evaluate((desc) => {
+      (window as any).__componentMetadata = (window as any).__componentMetadata || [];
+      (window as any).__componentMetadata.push({
+        name: desc.split(' ')[0],
+        description: desc,
+        timestamp: new Date().toISOString()
+      });
+    }, description);
+    
+    await this.visualHelpers.prepareForScreenshot();
+    return expect(element).toHaveScreenshot(`component-${name}.png`);
+  }
+
+  /**
+   * Capture interaction states (default, hover, focus, active)
+   */
+  async captureInteractionStates(
+    element: Locator,
+    baseName: string,
+    states: string[]
+  ) {
+    const results = [];
+    
+    for (const state of states) {
+      switch (state) {
+        case 'default':
+          await this.visualHelpers.prepareForScreenshot();
+          results.push(await expect(element).toHaveScreenshot(`${baseName}-default.png`));
+          break;
+        case 'hover':
+          await element.hover();
+          await this.page.waitForTimeout(300);
+          results.push(await expect(element).toHaveScreenshot(`${baseName}-hover.png`));
+          break;
+        case 'focus':
+          await element.focus();
+          await this.page.waitForTimeout(300);
+          results.push(await expect(element).toHaveScreenshot(`${baseName}-focus.png`));
+          break;
+        case 'active':
+          await element.hover();
+          await this.page.mouse.down();
+          await this.page.waitForTimeout(200);
+          results.push(await expect(element).toHaveScreenshot(`${baseName}-active.png`));
+          await this.page.mouse.up();
+          break;
+      }
+    }
+    
+    return results;
+  }
+
+  /**
+   * Take responsive screenshots at different viewports
+   */
+  async takeResponsiveScreenshot(
+    name: string,
+    viewport: { width: number; height: number }
+  ) {
+    const originalViewport = this.page.viewportSize();
+    
+    await this.page.setViewportSize(viewport);
+    await this.visualHelpers.prepareForScreenshot();
+    const result = await expect(this.page).toHaveScreenshot(`responsive-${name}.png`);
+    
+    // Restore original viewport
+    if (originalViewport) {
+      await this.page.setViewportSize(originalViewport);
+    }
+    
+    return result;
+  }
+
+  /**
+   * Capture form field states (empty, focused, filled, error)
+   */
+  async captureFormFieldStates(
+    element: Locator,
+    baseName: string
+  ) {
+    const results = [];
+    
+    // Empty state
+    await element.clear();
+    await this.visualHelpers.prepareForScreenshot();
+    results.push(await expect(element).toHaveScreenshot(`${baseName}-empty.png`));
+    
+    // Focused state
+    await element.focus();
+    await this.page.waitForTimeout(300);
+    results.push(await expect(element).toHaveScreenshot(`${baseName}-focused.png`));
+    
+    // Filled state
+    await element.fill('test@example.com');
+    await this.page.waitForTimeout(300);
+    results.push(await expect(element).toHaveScreenshot(`${baseName}-filled.png`));
+    
+    return results;
+  }
+
+  /**
+   * Get current viewport as string
+   */
+  async getCurrentViewport(): Promise<string> {
+    const viewport = this.page.viewportSize();
+    return viewport ? `${viewport.width}x${viewport.height}` : '1280x720';
+  }
+
+  /**
+   * Take viewport-only screenshot (above the fold)
+   */
+  async takeViewportScreenshot(name: string) {
+    await this.visualHelpers.prepareForScreenshot();
+    return expect(this.page).toHaveScreenshot(`viewport-${name}.png`, { fullPage: false });
+  }
+
+  /**
+   * Capture animation frames at different points
+   */
+  async takeAnimationFrames(
+    element: Locator,
+    baseName: string,
+    frameCount = 3
+  ) {
+    const results = [];
+    
+    for (let i = 0; i < frameCount; i++) {
+      await this.page.waitForTimeout(300 * i); // Capture at different timing
+      await this.visualHelpers.prepareForScreenshot();
+      results.push(await expect(element).toHaveScreenshot(`${baseName}-frame-${i}.png`));
+    }
+    
+    return results;
+  }
+
+  /**
+   * Generate screenshot report
+   */
+  async generateReport() {
+    const metadata = await this.page.evaluate(() => {
+      return {
+        screenshots: (window as any).__screenshotMetadata || [],
+        components: (window as any).__componentMetadata || []
+      };
+    });
+    
+    if (metadata.screenshots.length > 0 || metadata.components.length > 0) {
+      console.log('Screenshot Test Report:', JSON.stringify(metadata, null, 2));
+    }
+  }
+
+  /**
+   * Prepare page for screenshot with loading state detection
+   */
+  async prepareForScreenshot() {
+    return this.visualHelpers.prepareForScreenshot();
+  }
 }
