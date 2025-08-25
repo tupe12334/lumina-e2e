@@ -50,7 +50,7 @@ export class MyJourneyPage {
     const nodeCount = await courseNode.count();
     if (nodeCount === 0) return false;
     const className = await courseNode.first().getAttribute('class');
-    return className?.includes('tree-node--style-complete') ?? false;
+    return className !== null && className !== undefined ? className.includes('tree-node--style-complete') : false;
   }
 
   async clickCourse(courseName: string): Promise<void> {

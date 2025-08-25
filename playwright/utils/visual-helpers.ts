@@ -108,8 +108,8 @@ export class VisualHelpers {
 
     return this.page.screenshot({
       path: `test-results/screenshots/${screenshotName}`,
-      fullPage: options.fullPage ?? false,
-      mask: options.mask ?? [],
+      fullPage: options.fullPage !== null && options.fullPage !== undefined ? options.fullPage : false,
+      mask: options.mask !== null && options.mask !== undefined ? options.mask : [],
       clip: options.clip,
     });
   }
