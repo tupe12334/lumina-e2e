@@ -190,6 +190,38 @@ export class QuestionPage {
   }
 
   /**
+   * Navigate to a question page (uses first available question)
+   */
+  async navigateToQuestion(): Promise<void> {
+    // Navigate to questions page first
+    await this.page.goto('/questions');
+    await this.page.waitForLoadState('networkidle');
+    
+    // Click on first available question
+    const firstQuestionLink = this.page.locator('a[href*="/questions/"]').first();
+    await firstQuestionLink.waitFor({ state: 'visible' });
+    await firstQuestionLink.click();
+    
+    // Wait for question page to load
+    await this.waitForQuestionLoad();
+  }
+
+  /**
+   * Check if user is authenticated
+   */
+  async isUserAuthenticated(): Promise<boolean> {
+    // Look for elements that are only visible to authenticated users
+    try {
+      await this.likeButton.waitFor({ state: 'visible', timeout: 2000 });
+      return true;
+    } catch {
+      // Check if there's a login prompt instead
+      const loginPrompt = this.page.locator('text=login', 'text=sign in').first();
+      return !(await loginPrompt.isVisible());
+    }
+  }
+
+  /**
    * Complete a question flow (answer, provide feedback, move to next)
    */
   async completeQuestionFlow(answerIndex: number, provideLike = true): Promise<void> {
