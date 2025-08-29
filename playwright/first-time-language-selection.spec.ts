@@ -2,21 +2,35 @@ import { test, expect } from '@playwright/test';
 
 test.describe('First-time Language Selection', () => {
   test.beforeEach(async ({ page }) => {
-    // Clear localStorage to simulate first-time user
+    // Clear cookies first
     await page.context().clearCookies();
+    
+    // Navigate to page first to establish domain context
+    await page.goto('/');
+    
+    // Then clear localStorage to simulate first-time user
     await page.evaluate(() => {
-      localStorage.clear();
-      sessionStorage.clear();
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {
+        // Ignore localStorage errors in test environment
+        console.log('LocalStorage clear failed:', e.message);
+      }
     });
+    
+    // Reload page after clearing storage
+    await page.reload();
   });
 
   test('shows language selection modal for first-time users', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for the language selection modal to appear
-    await expect(page.getByRole('dialog')).toBeVisible();
-    await expect(page.getByText('Welcome to Lumina')).toBeVisible();
-    await expect(page.getByText('Choose your preferred language to get started')).toBeVisible();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByText('Welcome to Lumina')).toBeVisible();
+    await expect(dialog.getByText('Choose your preferred language to get started')).toBeVisible();
     
     // Take screenshot of the language selection modal
     await page.screenshot({ 
@@ -24,23 +38,26 @@ test.describe('First-time Language Selection', () => {
       fullPage: true 
     });
     
-    // Check that all language options are present
-    await expect(page.getByText('English')).toBeVisible();
-    await expect(page.getByText('עברית')).toBeVisible(); // Hebrew
-    await expect(page.getByText('Español')).toBeVisible(); // Spanish
+    // Check that all language options are present as buttons
+    await expect(page.getByRole('option', { name: /Select English .* as your language/ })).toBeVisible();
+    await expect(page.getByRole('option', { name: /Select Hebrew .* as your language/ })).toBeVisible(); 
+    await expect(page.getByRole('option', { name: /Select Spanish .* as your language/ })).toBeVisible();
   });
 
   test('allows user to select English', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // Click on English option
-    await page.getByRole('button', { name: /Select English/ }).click();
+    await page.getByRole('option', { name: /Select English .* as your language/ }).click();
 
     // Modal should close
     await expect(page.getByRole('dialog')).not.toBeVisible();
+
+    // Wait for state to be persisted
+    await page.waitForTimeout(1000);
 
     // Check that language preference was saved
     const languagePreference = await page.evaluate(() => {
@@ -56,7 +73,7 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('allows user to select Hebrew', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
@@ -68,7 +85,7 @@ test.describe('First-time Language Selection', () => {
     });
 
     // Click on Hebrew option
-    await page.getByRole('button', { name: /Select Hebrew/ }).click();
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).click();
 
     // Modal should close
     await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -100,13 +117,13 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('allows user to select Spanish', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // Click on Spanish option
-    await page.getByRole('button', { name: /Select Spanish/ }).click();
+    await page.getByRole('option', { name: /Select Spanish .* as your language/ }).click();
 
     // Modal should close
     await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -125,14 +142,14 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('supports keyboard navigation', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // The first option should be focused by default
-    const englishButton = page.getByRole('button', { name: /Select English/ });
-    await expect(englishButton).toBeFocused();
+    const englishOption = page.getByRole('option', { name: /Select English .* as your language/ });
+    await expect(englishOption).toBeFocused();
 
     // Take screenshot showing focus state
     await page.screenshot({ 
@@ -142,8 +159,8 @@ test.describe('First-time Language Selection', () => {
 
     // Navigate using Tab key
     await page.keyboard.press('Tab');
-    const hebrewButton = page.getByRole('button', { name: /Select Hebrew/ });
-    await expect(hebrewButton).toBeFocused();
+    const hebrewOption = page.getByRole('option', { name: /Select Hebrew .* as your language/ });
+    await expect(hebrewOption).toBeFocused();
 
     // Take screenshot showing focus moved to second option
     await page.screenshot({ 
@@ -171,7 +188,7 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('supports keyboard navigation with Space key', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
@@ -179,8 +196,8 @@ test.describe('First-time Language Selection', () => {
     // Navigate to Spanish option
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
-    const spanishButton = page.getByRole('button', { name: /Select Spanish/ });
-    await expect(spanishButton).toBeFocused();
+    const spanishOption = page.getByRole('option', { name: /Select Spanish .* as your language/ });
+    await expect(spanishOption).toBeFocused();
 
     // Select using Space key
     await page.keyboard.press(' ');
@@ -202,10 +219,9 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('does not show modal for returning users', async ({ page }) => {
-    // First visit - select a language
-    await page.goto('/');
+    // First visit - select a language (page already loaded in beforeEach)
     await expect(page.getByRole('dialog')).toBeVisible();
-    await page.getByRole('button', { name: /Select English/ }).click();
+    await page.getByRole('option', { name: /Select English .* as your language/ }).click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
 
     // Navigate away and come back
@@ -217,8 +233,7 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('does not show modal when user already has a language preference', async ({ page }) => {
-    // Pre-set language preference in localStorage
-    await page.goto('/');
+    // Pre-set language preference in localStorage (page already loaded in beforeEach)
     await page.evaluate(() => {
       const persistedState = {
         userSettings: JSON.stringify({
@@ -241,7 +256,7 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('has proper ARIA attributes for accessibility', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     const dialog = page.getByRole('dialog');
@@ -265,11 +280,11 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('marks first visit and language selection as seen', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal and select a language
     await expect(page.getByRole('dialog')).toBeVisible();
-    await page.getByRole('button', { name: /Select English/ }).click();
+    await page.getByRole('option', { name: /Select English .* as your language/ }).click();
 
     // Check that localStorage flags are set
     const visitFlags = await page.evaluate(() => ({
@@ -282,7 +297,7 @@ test.describe('First-time Language Selection', () => {
   });
 
   test('visual regression - language selection modal states', async ({ page }) => {
-    await page.goto('/');
+    // Page is already loaded and localStorage cleared in beforeEach
 
     // Wait for modal to appear
     await expect(page.getByRole('dialog')).toBeVisible();
@@ -300,54 +315,53 @@ test.describe('First-time Language Selection', () => {
     });
 
     // 3. Individual language options (normal state)
-    await page.getByRole('button', { name: /Select English/ }).screenshot({
+    await page.getByRole('option', { name: /Select English .* as your language/ }).screenshot({
       path: 'test-results/screenshots/first-time-language/button-english-normal.png'
     });
 
-    await page.getByRole('button', { name: /Select Hebrew/ }).screenshot({
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).screenshot({
       path: 'test-results/screenshots/first-time-language/button-hebrew-rtl.png'
     });
 
-    await page.getByRole('button', { name: /Select Spanish/ }).screenshot({
+    await page.getByRole('option', { name: /Select Spanish .* as your language/ }).screenshot({
       path: 'test-results/screenshots/first-time-language/button-spanish-normal.png'
     });
 
     // 4. Hover states for each language option
-    await page.getByRole('button', { name: /Select English/ }).hover();
+    await page.getByRole('option', { name: /Select English .* as your language/ }).hover();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-english-hovered.png' 
     });
 
-    await page.getByRole('button', { name: /Select Hebrew/ }).hover();
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).hover();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-hebrew-hovered.png' 
     });
 
-    await page.getByRole('button', { name: /Select Spanish/ }).hover();
+    await page.getByRole('option', { name: /Select Spanish .* as your language/ }).hover();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-spanish-hovered.png' 
     });
 
     // 5. Focus states for accessibility testing
-    await page.getByRole('button', { name: /Select English/ }).focus();
+    await page.getByRole('option', { name: /Select English .* as your language/ }).focus();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-english-focused.png' 
     });
 
-    await page.getByRole('button', { name: /Select Hebrew/ }).focus();
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).focus();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-hebrew-focused.png' 
     });
 
-    await page.getByRole('button', { name: /Select Spanish/ }).focus();
+    await page.getByRole('option', { name: /Select Spanish .* as your language/ }).focus();
     await modal.screenshot({ 
       path: 'test-results/screenshots/first-time-language/modal-spanish-focused.png' 
     });
   });
 
   test('visual documentation - complete user journey', async ({ page }) => {
-    // Document the complete first-time user experience
-    await page.goto('/');
+    // Document the complete first-time user experience (page already loaded in beforeEach)
 
     // Step 1: First load showing modal
     await expect(page.getByRole('dialog')).toBeVisible();
@@ -357,14 +371,14 @@ test.describe('First-time Language Selection', () => {
     });
 
     // Step 2: User considers Hebrew option
-    await page.getByRole('button', { name: /Select Hebrew/ }).hover();
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).hover();
     await page.screenshot({ 
       path: 'test-results/screenshots/first-time-language/journey-02-considering-hebrew.png',
       fullPage: true 
     });
 
     // Step 3: User selects Hebrew
-    await page.getByRole('button', { name: /Select Hebrew/ }).click();
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
     
     // Step 4: Wait for language switch and RTL layout
