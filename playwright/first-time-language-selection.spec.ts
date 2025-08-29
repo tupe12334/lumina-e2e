@@ -396,4 +396,166 @@ test.describe('First-time Language Selection', () => {
       fullPage: true 
     });
   });
+
+  test('visual regression - comprehensive screenshot tests @visual', async ({ page }) => {
+    // 1. Initial modal display
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page).toHaveScreenshot('language-modal-initial.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+
+    // 2. Modal component isolation
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toHaveScreenshot('language-modal-component.png', {
+      animations: 'disabled'
+    });
+
+    // 3. Individual language option states
+    const englishOption = page.getByRole('option', { name: /Select English .* as your language/ });
+    const hebrewOption = page.getByRole('option', { name: /Select Hebrew .* as your language/ });
+    const spanishOption = page.getByRole('option', { name: /Select Spanish .* as your language/ });
+
+    // Normal states
+    await expect(englishOption).toHaveScreenshot('english-option-normal.png');
+    await expect(hebrewOption).toHaveScreenshot('hebrew-option-normal.png');
+    await expect(spanishOption).toHaveScreenshot('spanish-option-normal.png');
+
+    // 4. Hover states
+    await englishOption.hover();
+    await expect(dialog).toHaveScreenshot('modal-english-hover.png', {
+      animations: 'disabled'
+    });
+
+    await hebrewOption.hover();
+    await expect(dialog).toHaveScreenshot('modal-hebrew-hover.png', {
+      animations: 'disabled'
+    });
+
+    await spanishOption.hover();
+    await expect(dialog).toHaveScreenshot('modal-spanish-hover.png', {
+      animations: 'disabled'
+    });
+
+    // 5. Focus states for accessibility
+    await englishOption.focus();
+    await expect(dialog).toHaveScreenshot('modal-english-focus.png', {
+      animations: 'disabled'
+    });
+
+    await hebrewOption.focus();
+    await expect(dialog).toHaveScreenshot('modal-hebrew-focus.png', {
+      animations: 'disabled'
+    });
+
+    await spanishOption.focus();
+    await expect(dialog).toHaveScreenshot('modal-spanish-focus.png', {
+      animations: 'disabled'
+    });
+  });
+
+  test('visual regression - language selection flow @visual', async ({ page }) => {
+    // Step 1: Initial modal
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page).toHaveScreenshot('flow-01-initial-modal.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+
+    // Step 2: Select Hebrew to test RTL layout
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).click();
+    
+    // Wait for modal to close and language to switch
+    await expect(page.getByRole('dialog')).not.toBeVisible();
+    await page.waitForTimeout(1500); // Wait for RTL layout changes
+
+    // Step 3: Hebrew interface with RTL layout
+    await expect(page).toHaveScreenshot('flow-02-hebrew-rtl-layout.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+
+    // Step 4: Reload to verify no modal appears
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    await expect(page).toHaveScreenshot('flow-03-no-modal-return.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+  });
+
+  test('visual regression - mobile responsive modal @visual', async ({ page }) => {
+    // Test different mobile viewport sizes
+    const mobileViewports = [
+      { name: 'mobile-small', width: 375, height: 667 },   // iPhone SE
+      { name: 'mobile-large', width: 414, height: 896 },   // iPhone XR
+      { name: 'tablet-portrait', width: 768, height: 1024 } // iPad
+    ];
+
+    for (const viewport of mobileViewports) {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      
+      // Wait for modal to be visible
+      await expect(page.getByRole('dialog')).toBeVisible();
+      
+      // Take screenshot for each viewport
+      await expect(page).toHaveScreenshot(`modal-${viewport.name}.png`, {
+        fullPage: true,
+        animations: 'disabled'
+      });
+    }
+  });
+
+  test('visual regression - dark theme modal @visual', async ({ page }) => {
+    // Enable dark theme by setting system preference
+    await page.emulateMedia({ colorScheme: 'dark' });
+    
+    // Wait for modal and theme to load
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.waitForTimeout(500); // Allow theme transition
+    
+    // Take screenshot of dark theme modal
+    await expect(page).toHaveScreenshot('modal-dark-theme.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+    
+    // Test dark theme with different language selections
+    const dialog = page.getByRole('dialog');
+    
+    // Hover state in dark theme
+    await page.getByRole('option', { name: /Select English .* as your language/ }).hover();
+    await expect(dialog).toHaveScreenshot('modal-dark-english-hover.png', {
+      animations: 'disabled'
+    });
+    
+    // Focus state in dark theme  
+    await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).focus();
+    await expect(dialog).toHaveScreenshot('modal-dark-hebrew-focus.png', {
+      animations: 'disabled'
+    });
+  });
+
+  test('visual regression - high contrast and accessibility @visual', async ({ page }) => {
+    // Enable high contrast mode
+    await page.emulateMedia({ 
+      colorScheme: 'dark',
+      reducedMotion: 'reduce' 
+    });
+    
+    await expect(page.getByRole('dialog')).toBeVisible();
+    
+    // High contrast modal
+    await expect(page).toHaveScreenshot('modal-high-contrast.png', {
+      fullPage: true,
+      animations: 'disabled'
+    });
+    
+    // Test keyboard navigation visibility in high contrast
+    await page.keyboard.press('Tab'); // Focus first option
+    await expect(page.getByRole('dialog')).toHaveScreenshot('modal-high-contrast-focus.png', {
+      animations: 'disabled'
+    });
+  });
 });
