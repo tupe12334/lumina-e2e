@@ -35,8 +35,16 @@
     "test:cross-browser-visual": "playwright test --grep='@cross-browser'"
   },
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@playwright/test": "^1.53.0",
-    "@types/node": "^24.0.3"
+    "@types/node": "^24.0.3",
+    "eslint": "^9.18.0",
+    "eslint-config-agent": "^1.0.8",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.20.0"
   },
   "packageManager": "pnpm@10.12.1",
   "dependencies": {

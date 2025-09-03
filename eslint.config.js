@@ -1,4 +1,4 @@
 // @ts-check
-import config from '@tupe12334/eslint-config';
+import config from 'eslint-config-agent';
 
 export default config;
