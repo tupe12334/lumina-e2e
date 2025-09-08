@@ -147,21 +147,6 @@ pnpm test:clean
 
 ## 🔧 Configuration
 
-### Environment Variables
-
-```bash
-# Test environment (local, development, staging, production)
-E2E_ENVIRONMENT=local
-
-# Base URL override
-E2E_BASE_URL=http://localhost:4174
-
-# Debug mode
-DEBUG_TESTS=true
-
-# CI mode
-CI=true
-```
 
 ### Environment Configuration
 Configure different environments in `playwright/config/environments.ts`:
