@@ -57,13 +57,13 @@ export class LearningJourneyPage {
   async getAllCourses(): Promise<Array<{ name: string; status: string; element: Locator }>> {
     const blocks = await this.courseBlocks.all();
     const courses = [];
-    
+
     for (const block of blocks) {
       const name = await block.locator('[data-testid="course-name"]').textContent() || '';
       const status = await block.getAttribute('data-status') || 'unknown';
       courses.push({ name, status, element: block });
     }
-    
+
     return courses;
   }
 
@@ -83,7 +83,7 @@ export class LearningJourneyPage {
   async getOverallProgress(): Promise<number> {
     const progressText = await this.progressOverview.textContent();
     if (!progressText) return 0;
-    
+
     const match = progressText.match(/(\d+)%/);
     return match ? parseInt(match[1]) : 0;
   }
@@ -140,12 +140,12 @@ export class LearningJourneyPage {
   async getAchievements(): Promise<string[]> {
     const badges = await this.achievementsBadges.all();
     const achievements = [];
-    
+
     for (const badge of badges) {
       const title = await badge.getAttribute('title') || await badge.textContent() || '';
       if (title) achievements.push(title);
     }
-    
+
     return achievements;
   }
 
@@ -177,7 +177,7 @@ export class LearningJourneyPage {
   async markCourseComplete(courseName: string): Promise<void> {
     const courseBlock = this.courseBlocks.filter({ hasText: courseName });
     const completeButton = courseBlock.getByRole('button', { name: /complete|mark complete/i });
-    
+
     if (await completeButton.isVisible()) {
       await completeButton.click();
       await this.page.waitForLoadState('networkidle');
@@ -198,13 +198,13 @@ export class LearningJourneyPage {
   async verifyJourneyProgression(): Promise<void> {
     // Check that page loaded correctly
     await expect(this.pageTitle).toBeVisible();
-    
+
     // Check that at least one course is visible
     await expect(this.courseBlocks.first()).toBeVisible();
-    
+
     // Check that progress overview is shown
     await expect(this.progressOverview).toBeVisible();
-    
+
     // Verify progress percentage is reasonable (0-100%)
     const progress = await this.getOverallProgress();
     expect(progress).toBeGreaterThanOrEqual(0);

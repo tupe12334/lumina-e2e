@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as process from 'process';
+import { env } from 'process';
 
-const isCI = Boolean(process.env.CI);
-const baseURL = process.env.E2E_BASE_URL || 'http://localhost:4174';
+const isCI = Boolean(env.CI);
+const baseURL = env.E2E_BASE_URL || 'http://localhost:4174';
 
 export default defineConfig({
   testDir: './playwright',

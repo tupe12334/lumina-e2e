@@ -55,7 +55,7 @@ export class QuestionPage {
     if (answerIndex >= options.length) {
       throw new Error(`Answer index ${answerIndex} is out of range. Only ${options.length} options available.`);
     }
-    
+
     await options[answerIndex].click();
   }
 
@@ -98,7 +98,7 @@ export class QuestionPage {
   async provideFeedback(feedback: 'like' | 'dislike'): Promise<void> {
     const button = feedback === 'like' ? this.likeButton : this.dislikeButton;
     await button.click();
-    
+
     // Wait for feedback to be registered
     await this.page.waitForTimeout(1000);
   }
@@ -149,7 +149,7 @@ export class QuestionPage {
   async getProgress(): Promise<number> {
     const progressText = await this.progressIndicator.textContent();
     if (!progressText) return 0;
-    
+
     const match = progressText.match(/(\d+)%/);
     return match ? parseInt(match[1]) : 0;
   }
@@ -196,12 +196,12 @@ export class QuestionPage {
     // Navigate to questions page first
     await this.page.goto('/questions');
     await this.page.waitForLoadState('networkidle');
-    
+
     // Click on first available question
     const firstQuestionLink = this.page.locator('a[href*="/questions/"]').first();
     await firstQuestionLink.waitFor({ state: 'visible' });
     await firstQuestionLink.click();
-    
+
     // Wait for question page to load
     await this.waitForQuestionLoad();
   }
@@ -227,11 +227,11 @@ export class QuestionPage {
   async completeQuestionFlow(answerIndex: number, provideLike = true): Promise<void> {
     await this.answerQuestion(answerIndex);
     await this.waitForAnswerFeedback();
-    
+
     if (provideLike) {
       await this.provideFeedback('like');
     }
-    
+
     if (await this.nextQuestionButton.isVisible()) {
       await this.goToNextQuestion();
     }

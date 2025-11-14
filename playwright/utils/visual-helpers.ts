@@ -130,7 +130,7 @@ export class VisualHelpers {
     for (const state of states) {
       await state.setup();
       await this.prepareForScreenshot();
-      
+
       const screenshot = await element.screenshot();
       results.push({
         name: state.name,
@@ -163,9 +163,9 @@ export class VisualHelpers {
     for (let i = 0; i < maxScrolls; i++) {
       await this.page.mouse.wheel(0, scrollStep);
       await this.page.waitForTimeout(200);
-      
+
       const currentScroll = await this.page.evaluate(() => window.scrollY);
-      const maxScroll = await this.page.evaluate(() => 
+      const maxScroll = await this.page.evaluate(() =>
         document.documentElement.scrollHeight - window.innerHeight
       );
 
@@ -205,7 +205,7 @@ export class VisualHelpers {
       });
 
       await this.prepareForScreenshot();
-      
+
       const screenshot = await this.page.screenshot();
       screenshots.push({
         name: `${screenshotBaseName}-${breakpoint.name}`,
@@ -288,7 +288,7 @@ export class VisualHelpers {
 
     while (Date.now() - startTime < timeout) {
       const currentScreenshot = await this.page.screenshot();
-      
+
       if (lastScreenshot && Buffer.compare(currentScreenshot, lastScreenshot) === 0) {
         stableCount++;
         if (stableCount >= requiredStableCount) {

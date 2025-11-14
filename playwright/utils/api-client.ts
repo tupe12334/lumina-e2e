@@ -80,7 +80,7 @@ export class LuminaApiClient {
       });
 
       const responseData = await response.json();
-      
+
       if (response.ok() && responseData.data?.createUser) {
         return {
           success: true,
@@ -134,7 +134,7 @@ export class LuminaApiClient {
       });
 
       const responseData = await response.json();
-      
+
       if (response.ok() && responseData.data?.login) {
         return {
           success: true,
@@ -179,7 +179,7 @@ export class LuminaApiClient {
       });
 
       const responseData = await response.json();
-      
+
       return {
         success: response.ok() && responseData.data?.deleteUser?.success,
         status: response.status(),
@@ -218,7 +218,7 @@ export class LuminaApiClient {
       });
 
       const responseData = await response.json();
-      
+
       return {
         success: response.ok(),
         data: responseData.data?.userProgress,
@@ -265,7 +265,7 @@ export class LuminaApiClient {
       });
 
       const responseData = await response.json();
-      
+
       return {
         success: response.ok() && responseData.data?.submitFeedback?.success,
         data: responseData.data?.submitFeedback,
@@ -290,7 +290,7 @@ export class LuminaApiClient {
     while (Date.now() - startTime < timeoutMs) {
       const healthChecks = await this.healthCheck();
       const allHealthy = Object.values(healthChecks).every(Boolean);
-      
+
       if (allHealthy) {
         return true;
       }

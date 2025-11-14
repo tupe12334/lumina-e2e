@@ -97,7 +97,7 @@ test.describe('Component Screenshot Tests', () => {
 
       if (await emailInput.isVisible()) {
         await expect(emailInput).toHaveScreenshot('email-input-default.png');
-        
+
         await emailInput.focus();
         await page.waitForTimeout(200);
         await expect(emailInput).toHaveScreenshot('email-input-focused.png');
@@ -108,7 +108,7 @@ test.describe('Component Screenshot Tests', () => {
 
       if (await passwordInput.isVisible()) {
         await expect(passwordInput).toHaveScreenshot('password-input-default.png');
-        
+
         await passwordInput.focus();
         await page.waitForTimeout(200);
         await expect(passwordInput).toHaveScreenshot('password-input-focused.png');
@@ -144,7 +144,7 @@ test.describe('Component Screenshot Tests', () => {
     // Navigate to degrees page to potentially see loading states
     const navigationPromise = page.waitForLoadState('domcontentloaded');
     await page.goto('/degrees');
-    
+
     // Try to capture loading state
     const loadingElements = [
       '[data-testid="loading"]',
@@ -175,12 +175,12 @@ test.describe('Component Screenshot Tests', () => {
 
   test('Error state components @visual-component', async ({ page }) => {
     // Try to trigger some error states
-    
+
     // 1. Network error simulation (if possible)
     await page.route('**/api/**', route => route.abort());
     await page.goto('/degrees');
     await page.waitForLoadState('domcontentloaded');
-    
+
     // Look for error messages or components
     const errorElements = [
       '[data-testid="error"]',

@@ -6,13 +6,13 @@ test.describe('Mobile Filters Interaction Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     screenshotHelpers = new ScreenshotHelpers(page);
-    
+
     // Set mobile viewport for iPhone 14
     await page.setViewportSize({ width: 390, height: 844 });
-    
+
     // Navigate to questions page with filters
     await page.goto('/questions');
-    
+
     // Wait for page to load
     await page.waitForLoadState('networkidle');
   });
@@ -42,12 +42,12 @@ test.describe('Mobile Filters Interaction Tests', () => {
 
       // Wait for dialog to appear
       await page.waitForSelector('[role="dialog"]', { timeout: 5000 });
-      
+
       // Apply some filters by clicking on items
       const moduleSection = page.getByText('Modules').first();
       if (await moduleSection.isVisible()) {
         await moduleSection.click();
-        
+
         // Select a module
         const firstCheckbox = page.locator('input[type="checkbox"]').first();
         if (await firstCheckbox.isVisible()) {
@@ -71,16 +71,16 @@ test.describe('Mobile Filters Interaction Tests', () => {
   test.describe('Mobile Bottom Sheet Dialog', () => {
     test('should open bottom sheet dialog with proper animation', async ({ page }) => {
       const filterToggle = page.getByRole('button', { name: /show filters|filter/i }).first();
-      
+
       // Take before screenshot
       await screenshotHelpers.takePageScreenshot('mobile-before-dialog-open');
-      
+
       // Click to open dialog
       await filterToggle.click();
-      
+
       // Wait for dialog animation
       await page.waitForTimeout(500);
-      
+
       // Verify dialog is visible
       const dialog = page.locator('[role="dialog"]');
       await expect(dialog).toBeVisible();
@@ -111,7 +111,7 @@ test.describe('Mobile Filters Interaction Tests', () => {
       // Simulate touch swipe
       await page.touchscreen.tap(centerX, startY);
       await page.touchscreen.tap(centerX, endY);
-      
+
       // Wait for close animation
       await page.waitForTimeout(500);
 
@@ -129,14 +129,14 @@ test.describe('Mobile Filters Interaction Tests', () => {
       // Find and click close button
       const closeButton = dialog.getByRole('button', { name: /close/i });
       await expect(closeButton).toBeVisible();
-      
+
       // Check close button touch target size
       const closeBounds = await closeButton.boundingBox();
       expect(closeBounds).not.toBeNull();
       expect(Math.min(closeBounds!.width, closeBounds!.height)).toBeGreaterThanOrEqual(44);
 
       await closeButton.click();
-      
+
       // Dialog should be closed
       await expect(dialog).not.toBeVisible();
     });
@@ -188,7 +188,7 @@ test.describe('Mobile Filters Interaction Tests', () => {
         await page.mouse.wheel(0, 200);
         await page.waitForTimeout(100);
         await page.mouse.wheel(0, -200);
-        
+
         // Take screenshot after scrolling
         await screenshotHelpers.takeElementScreenshot(
           dialog,
@@ -211,7 +211,7 @@ test.describe('Mobile Filters Interaction Tests', () => {
       const checkbox = dialog.locator('input[type="checkbox"]').first();
       if (await checkbox.isVisible()) {
         await checkbox.click();
-        
+
         // Apply filters
         const applyButton = dialog.getByRole('button', { name: /apply/i });
         if (await applyButton.isVisible()) {
@@ -293,17 +293,17 @@ test.describe('Mobile Filters Interaction Tests', () => {
       // Focus on filter toggle
       const filterToggle = page.getByRole('button', { name: /show filters|filter/i }).first();
       await filterToggle.focus();
-      
+
       // Open with Enter key
       await page.keyboard.press('Enter');
-      
+
       const dialog = page.locator('[role="dialog"]');
       await expect(dialog).toBeVisible();
 
       // Tab through elements
       await page.keyboard.press('Tab');
       await page.keyboard.press('Tab');
-      
+
       // Take screenshot of focused elements
       await screenshotHelpers.takeElementScreenshot(
         dialog,
@@ -324,11 +324,11 @@ test.describe('Mobile Filters Interaction Tests', () => {
 
       // Check for proper ARIA attributes
       await expect(dialog).toHaveAttribute('role', 'dialog');
-      
+
       // Check checkboxes have proper labels
       const checkboxes = dialog.locator('input[type="checkbox"]');
       const checkboxCount = await checkboxes.count();
-      
+
       for (let i = 0; i < Math.min(checkboxCount, 3); i++) {
         const checkbox = checkboxes.nth(i);
         const ariaLabel = await checkbox.getAttribute('aria-label');
@@ -336,7 +336,7 @@ test.describe('Mobile Filters Interaction Tests', () => {
           const label = el.closest('label');
           return label ? label.textContent : null;
         });
-        
+
         expect(ariaLabel || associatedLabel).toBeTruthy();
       }
     });
@@ -350,7 +350,7 @@ test.describe('Mobile Filters Interaction Tests', () => {
           frameCount: 0,
           startTime: performance.now(),
         };
-        
+
         function countFrames() {
           (window as any).performanceMetrics.frameCount++;
           requestAnimationFrame(countFrames);
@@ -359,11 +359,11 @@ test.describe('Mobile Filters Interaction Tests', () => {
       });
 
       const filterToggle = page.getByRole('button', { name: /show filters|filter/i }).first();
-      
+
       // Trigger animation
       await filterToggle.click();
       await page.waitForTimeout(500); // Animation duration
-      
+
       // Close dialog
       const dialog = page.locator('[role="dialog"]');
       const closeButton = dialog.getByRole('button', { name: /close/i });

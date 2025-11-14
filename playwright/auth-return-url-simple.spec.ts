@@ -13,7 +13,7 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
     // Navigate to courses page
     await page.goto('/courses');
     await page.waitForLoadState('networkidle');
-    
+
     // Manually trigger the auth navigation service
     const returnUrl = await page.evaluate(() => {
       // Import our service and test it directly
@@ -46,7 +46,7 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
 
   test('Should validate return URLs for security', async ({ page }) => {
     await page.goto('/');
-    
+
     const validationResults = await page.evaluate(() => {
       const validateReturnUrl = (url) => {
         if (!url || typeof url !== 'string') return false;
@@ -78,7 +78,7 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
   test('Should extract return URL from query parameters', async ({ page }) => {
     // Navigate to login with return URL parameter
     await page.goto('/login?returnUrl=/degrees');
-    
+
     const extractedUrl = await page.evaluate(() => {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get('returnUrl');
@@ -89,11 +89,11 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
 
   test('Should build auth URLs with return parameters', async ({ page }) => {
     await page.goto('/');
-    
+
     const authUrl = await page.evaluate(() => {
       const buildAuthUrl = (authPath, returnUrl) => {
         if (!returnUrl) return authPath;
-        
+
         // Simple validation
         if (!returnUrl.startsWith('/') || returnUrl.includes('://')) {
           return authPath;
@@ -114,24 +114,24 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
     // Start at a regular page
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    
+
     // Navigate to login page
     await page.goto('/login');
-    
+
     // Check that login page loads correctly
     await expect(page.locator('h1')).toContainText(/welcome|login|sign in/i);
-    
+
     // Check that we have the register link
     const registerLink = page.locator('a[href="/register"]');
     await expect(registerLink).toBeVisible();
-    
+
     // Navigate to register page
     await registerLink.click();
     await page.waitForURL('**/register');
-    
-    // Check that register page loads correctly  
+
+    // Check that register page loads correctly
     await expect(page.locator('h1')).toContainText(/create|register|sign up/i);
-    
+
     // Check that we have the login link back
     const loginLink = page.locator('a[href="/login"]');
     await expect(loginLink).toBeVisible();
@@ -139,7 +139,7 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
 
   test('Should not save auth pages as return URLs', async ({ page }) => {
     await page.goto('/');
-    
+
     const shouldSaveUrl = await page.evaluate(() => {
       const getCurrentReturnUrl = (currentPath) => {
         // Don't use auth pages as return URLs
@@ -149,12 +149,12 @@ test.describe('Authentication Return URL - Frontend Only Tests', () => {
             currentPath.startsWith('/reset-password')) {
           return null;
         }
-        
-        // Don't use error pages as return URLs  
+
+        // Don't use error pages as return URLs
         if (currentPath.startsWith('/404') || currentPath === '/not-found') {
           return null;
         }
-        
+
         return currentPath.startsWith('/') ? currentPath : null;
       };
 

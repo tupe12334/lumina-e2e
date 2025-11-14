@@ -6,10 +6,10 @@ test.describe('Visual Regression Tests', () => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    
+
     // Wait for fonts to load to ensure consistent rendering
     await page.waitForFunction(() => document.fonts.ready);
-    
+
     // Wait for any animations or transitions to complete
     await page.waitForTimeout(500);
   });
@@ -22,7 +22,7 @@ test.describe('Visual Regression Tests', () => {
     await page.goto('/degrees');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500); // Wait for content to stabilize
-    
+
     await expect(page).toHaveScreenshot('degrees-page.png');
   });
 
@@ -34,7 +34,7 @@ test.describe('Visual Regression Tests', () => {
       await page.locator('text=עברית').or(page.locator('[value="he"]')).click();
       await page.waitForTimeout(1000); // Wait for language change
     }
-    
+
     await expect(page).toHaveScreenshot('home-page-hebrew.png');
   });
 
@@ -43,7 +43,7 @@ test.describe('Visual Regression Tests', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500);
-    
+
     await expect(page).toHaveScreenshot('home-page-mobile.png');
   });
 
@@ -52,7 +52,7 @@ test.describe('Visual Regression Tests', () => {
     await page.goto('/degrees');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500);
-    
+
     await expect(page).toHaveScreenshot('degrees-page-mobile.png');
   });
 
@@ -61,7 +61,7 @@ test.describe('Visual Regression Tests', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500);
-    
+
     await expect(page).toHaveScreenshot('home-page-tablet.png');
   });
 
@@ -80,7 +80,7 @@ test.describe('Visual Regression Tests', () => {
       await page.reload();
       await page.waitForLoadState('networkidle');
     }
-    
+
     await expect(page).toHaveScreenshot('home-page-dark-mode.png');
   });
 
@@ -126,7 +126,7 @@ test.describe('Visual Regression Tests', () => {
     await page.goto('/non-existent-page');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500);
-    
+
     // Check if we get a 404 page or error message
     const errorIndicator = page.locator('text=/404|not found|error/i').first();
     if (await errorIndicator.isVisible()) {
@@ -136,18 +136,18 @@ test.describe('Visual Regression Tests', () => {
 
   test('Loading states visual appearance @visual', async ({ page }) => {
     // Navigate to degrees page and capture loading state if possible
-    const responsePromise = page.waitForResponse(response => 
+    const responsePromise = page.waitForResponse(response =>
       response.url().includes('/degrees') && response.status() === 200
     );
-    
+
     await page.goto('/degrees');
-    
+
     // Try to capture loading spinner or skeleton if present
     const loadingElement = page.locator('[data-testid="loading"], .loading, .spinner, [aria-label*="loading"]').first();
     if (await loadingElement.isVisible({ timeout: 1000 })) {
       await expect(loadingElement).toHaveScreenshot('loading-spinner.png');
     }
-    
+
     await responsePromise;
     await page.waitForLoadState('networkidle');
   });
@@ -170,7 +170,7 @@ test.describe('Cross-browser Visual Consistency', () => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(500);
-      
+
       await expect(page).toHaveScreenshot(`home-page-${viewport.name}.png`);
     }
   });

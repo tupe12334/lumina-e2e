@@ -24,10 +24,10 @@ async function createTestUserWithoutDegree(page: Page) {
 
   // Skip onboarding without setting a degree
   await expect(page).toHaveURL(/\/onboarding/, { timeout: 15000 });
-  
+
   // Navigate directly to dashboard to bypass onboarding
   await page.goto('/');
-  
+
   return { firstName, lastName, email };
 }
 
@@ -65,7 +65,7 @@ test.describe('Degree Popup Feature', () => {
   test.beforeEach(async ({ page }) => {
     // Clear localStorage before each test
     await clearDegreePopupPreferences(page);
-    
+
     // Set up sidebar
     const sidebar = new Sidebar(page);
     await page.goto('/');
@@ -76,18 +76,18 @@ test.describe('Degree Popup Feature', () => {
   test('shows popup for logged-in user without degree on first visit', async ({ page }) => {
     // Mock logged-in user without degree
     await loginWithoutDegree(page);
-    
+
     // Navigate to a degree page
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for page to load
     await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
-    
+
     // Verify popup appears after delay
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
     await expect(page.getByText('Set Your Degree')).toBeVisible();
     await expect(page.getByText(/Would you like to set.*as your degree/)).toBeVisible();
-    
+
     // Verify popup buttons are present
     await expect(page.getByRole('button', { name: 'Yes, Set as My Degree' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'No, Thanks' })).toBeVisible();
@@ -114,12 +114,12 @@ test.describe('Degree Popup Feature', () => {
         }),
       }));
     });
-    
+
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for page to load
     await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
-    
+
     // Verify popup does not appear
     await page.waitForTimeout(1500); // Wait longer than popup delay
     await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -131,12 +131,12 @@ test.describe('Degree Popup Feature', () => {
     await page.addInitScript(() => {
       window.localStorage.removeItem('persist:lumina-root');
     });
-    
+
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for page to load
     await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
-    
+
     // Verify popup does not appear
     await page.waitForTimeout(1500); // Wait longer than popup delay
     await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -145,7 +145,7 @@ test.describe('Degree Popup Feature', () => {
 
   test('confirms degree selection when user clicks "Yes"', async ({ page }) => {
     await loginWithoutDegree(page);
-    
+
     // Mock the GraphQL mutation response
     await page.route('**/graphql', async route => {
       const body = await route.request().text();
@@ -170,65 +170,65 @@ test.describe('Degree Popup Feature', () => {
         await route.continue();
       }
     });
-    
+
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for popup to appear
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Click "Yes, Set as My Degree"
     await page.getByRole('button', { name: 'Yes, Set as My Degree' }).click();
-    
+
     // Verify popup closes
     await expect(page.getByRole('dialog')).not.toBeVisible({ timeout: 5000 });
-    
+
     // Verify success - could check for updated UI state
     // Note: In a real test, you'd verify the user's degree was updated in the UI
   });
 
   test('dismisses popup and remembers preference when user clicks "No"', async ({ page }) => {
     await loginWithoutDegree(page);
-    
+
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for popup to appear
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Click "No, Thanks"
     await page.getByRole('button', { name: 'No, Thanks' }).click();
-    
+
     // Verify popup closes
     await expect(page.getByRole('dialog')).not.toBeVisible({ timeout: 1000 });
-    
+
     // Verify localStorage preference is set
     const dismissedPrefs = await page.evaluate((key) => {
       const stored = window.localStorage.getItem(key);
       return stored ? JSON.parse(stored) : {};
     }, LOCALSTORAGE_KEY);
-    
+
     expect(dismissedPrefs).toHaveProperty('computer-science-bsc', true);
-    
+
     // Refresh page to verify popup doesn't appear again
     await page.reload();
     await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
-    
+
     await page.waitForTimeout(1500); // Wait longer than popup delay
     await expect(page.getByRole('dialog')).not.toBeVisible();
   });
 
   test('shows popup for different degrees even after dismissing one', async ({ page }) => {
     await loginWithoutDegree(page);
-    
+
     // Visit first degree and dismiss popup
     await page.goto('/degrees/computer-science-bsc');
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
     await page.getByRole('button', { name: 'No, Thanks' }).click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
-    
+
     // Visit different degree - popup should appear again
     await page.goto('/degrees/mathematics-bsc');
     await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
-    
+
     // Verify popup appears for the new degree
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
     await expect(page.getByText('Set Your Degree')).toBeVisible();
@@ -236,7 +236,7 @@ test.describe('Degree Popup Feature', () => {
 
   test('shows loading state during degree confirmation', async ({ page }) => {
     await loginWithoutDegree(page);
-    
+
     // Mock slow GraphQL response
     await page.route('**/graphql', async route => {
       const body = await route.request().text();
@@ -263,24 +263,24 @@ test.describe('Degree Popup Feature', () => {
         await route.continue();
       }
     });
-    
+
     await page.goto('/degrees/computer-science-bsc');
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Click confirm button
     await page.getByRole('button', { name: 'Yes, Set as My Degree' }).click();
-    
+
     // Verify loading state
     await expect(page.getByRole('button', { name: 'Loading...' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'No, Thanks' })).toBeDisabled();
-    
+
     // Wait for request to complete
     await expect(page.getByRole('dialog')).not.toBeVisible({ timeout: 5000 });
   });
 
   test('handles errors gracefully during degree confirmation', async ({ page }) => {
     await loginWithoutDegree(page);
-    
+
     // Mock GraphQL error response
     await page.route('**/graphql', async route => {
       const body = await route.request().text();
@@ -296,16 +296,16 @@ test.describe('Degree Popup Feature', () => {
         await route.continue();
       }
     });
-    
+
     await page.goto('/degrees/computer-science-bsc');
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Click confirm button
     await page.getByRole('button', { name: 'Yes, Set as My Degree' }).click();
-    
+
     // Wait for error handling
     await page.waitForTimeout(1000);
-    
+
     // Verify popup remains open on error (for retry)
     await expect(page.getByRole('dialog')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Yes, Set as My Degree' })).toBeVisible();
@@ -318,13 +318,13 @@ test.describe('Degree Popup Translations', () => {
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();
     await sidebar.selectLanguage('he');
-    
+
     await loginWithoutDegree(page);
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for popup to appear
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Verify Hebrew translations
     await expect(page.getByText('הגדר את התואר שלך')).toBeVisible();
     await expect(page.getByRole('button', { name: 'כן, הגדר כתואר שלי' })).toBeVisible();
@@ -336,13 +336,13 @@ test.describe('Degree Popup Translations', () => {
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();
     await sidebar.selectLanguage('es');
-    
+
     await loginWithoutDegree(page);
     await page.goto('/degrees/computer-science-bsc');
-    
+
     // Wait for popup to appear
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 2000 });
-    
+
     // Verify Spanish translations
     await expect(page.getByText('Establecer Tu Título')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Sí, Establecer como Mi Título' })).toBeVisible();

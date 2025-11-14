@@ -23,7 +23,7 @@ export const test = base.extend<AuthFixtures>({
   testDataManager: async ({}, use) => {
     const manager = new TestDataManager();
     await use(manager);
-    
+
     // Cleanup after test
     manager.clearTrackedData();
   },
@@ -41,7 +41,7 @@ export const test = base.extend<AuthFixtures>({
    */
   authenticatedUser: async ({ testDataManager, apiClient }, use) => {
     const userData = testDataManager.generateUser();
-    
+
     // Create user via API
     const createResult = await apiClient.createUser(userData);
     if (!createResult.success) {
@@ -61,7 +61,7 @@ export const test = base.extend<AuthFixtures>({
     };
 
     testDataManager.trackCreatedData('user', authenticatedUser.id!);
-    
+
     await use(authenticatedUser);
 
     // Cleanup
@@ -75,7 +75,7 @@ export const test = base.extend<AuthFixtures>({
    */
   authenticatedPage: async ({ context, authenticatedUser, baseURL }, use) => {
     const page = await context.newPage();
-    
+
     // Set authentication token in storage
     await page.goto(baseURL || 'http://localhost:4174');
     await page.evaluate((token) => {
@@ -90,7 +90,7 @@ export const test = base.extend<AuthFixtures>({
 
     await page.reload();
     await page.waitForLoadState('networkidle');
-    
+
     await use(page);
   },
 
@@ -99,7 +99,7 @@ export const test = base.extend<AuthFixtures>({
    */
   onboardedUser: async ({ context, testDataManager, apiClient, baseURL }, use) => {
     const userData = testDataManager.generateUser();
-    
+
     // Create and authenticate user
     const createResult = await apiClient.createUser(userData);
     if (!createResult.success) {
@@ -120,21 +120,21 @@ export const test = base.extend<AuthFixtures>({
     // Complete onboarding process via UI
     const page = await context.newPage();
     await page.goto(baseURL || 'http://localhost:4174');
-    
+
     const loginPage = new LoginPage(page);
     await loginPage.login(authenticatedUser.email, authenticatedUser.password);
-    
+
     const onboardingPage = new OnboardingPage(page);
     await onboardingPage.selectInstitution('The Open University Of Israel');
     await onboardingPage.selectDegree('Economics');
     await onboardingPage.agreeAndFinish();
-    
+
     // Wait for onboarding completion
     await page.waitForURL('/my-journey');
     await page.close();
 
     testDataManager.trackCreatedData('user', authenticatedUser.id);
-    
+
     await use(authenticatedUser);
 
     // Cleanup
@@ -148,7 +148,7 @@ export const test = base.extend<AuthFixtures>({
    */
   onboardedPage: async ({ context, onboardedUser, baseURL }, use) => {
     const page = await context.newPage();
-    
+
     // Set authentication token and user data
     await page.goto(baseURL || 'http://localhost:4174');
     await page.evaluate(
@@ -157,7 +157,7 @@ export const test = base.extend<AuthFixtures>({
         localStorage.setItem('user_data', JSON.stringify(user));
         localStorage.setItem('onboarding_completed', 'true');
       },
-      { 
+      {
         token: onboardedUser.token,
         user: {
           id: onboardedUser.id,
@@ -170,7 +170,7 @@ export const test = base.extend<AuthFixtures>({
 
     await page.reload();
     await page.waitForLoadState('networkidle');
-    
+
     await use(page);
   },
 });

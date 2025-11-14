@@ -1,7 +1,7 @@
 import type { TestResult, TestCase, FullResult, Reporter } from '@playwright/test/reporter';
 import { promises as fs } from 'fs';
 import path from 'path';
-import * as process from 'process';
+import { exitCode, env, version, platform, cwd } from 'process';
 
 /**
  * Custom reporter for enhanced CI/CD integration
@@ -43,13 +43,13 @@ export class CIReporter implements Reporter {
   async onEnd(result: FullResult): Promise<void> {
     const summary = this.generateTestSummary(result);
     await this.generateReports(summary);
-    
+
     // Log final summary
     this.logFinalSummary(summary);
-    
+
     // Set exit code based on results
     if (summary.summary.failed > 0) {
-      process.exitCode = 1;
+      exitCode = 1;
     }
   }
 
@@ -118,10 +118,10 @@ export class CIReporter implements Reporter {
       failedTests,
       slowestTests,
       environment: {
-        ci: Boolean(process.env.CI),
-        node: process.version,
-        os: process.platform,
-        baseUrl: process.env.E2E_BASE_URL || 'http://localhost:4174',
+        ci: Boolean(env.CI),
+        node: version,
+        os: platform,
+        baseUrl: env.E2E_BASE_URL || 'http://localhost:4174',
       },
       playwright: {
         status: result.status,
@@ -131,7 +131,7 @@ export class CIReporter implements Reporter {
   }
 
   private async generateReports(summary: any): Promise<void> {
-    const reportsDir = path.join(process.cwd(), 'test-results');
+    const reportsDir = path.join(cwd(), 'test-results');
     await fs.mkdir(reportsDir, { recursive: true });
 
     // 1. Generate JSON report
@@ -161,7 +161,7 @@ export class CIReporter implements Reporter {
   private async generateMarkdownReport(summary: any): Promise<string> {
     const { summary: testSummary, timing, failedTests, slowestTests, environment } = summary;
     const statusIcon = testSummary.summary.failed > 0 ? '❌' : '✅';
-    
+
     let report = `# E2E Test Report ${statusIcon}\n\n`;
     report += `**Generated:** ${summary.timestamp}\n`;
     report += `**Environment:** ${environment.ci ? 'CI' : 'Local'}\n`;
@@ -213,17 +213,17 @@ export class CIReporter implements Reporter {
 
   private generateJUnitXML(summary: any): string {
     const { summary: testSummary, timing } = summary;
-    
+
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += `<testsuites name="E2E Tests" tests="${testSummary.total}" failures="${testSummary.summary.failed}" time="${timing.totalDuration / 1000}">\n`;
     xml += `  <testsuite name="Playwright E2E" tests="${testSummary.total}" failures="${testSummary.summary.failed}" time="${timing.totalDuration / 1000}">\n`;
-    
+
     for (const testResult of this.testResults) {
       const testName = `${testResult.test.parent.title} > ${testResult.test.title}`;
       const duration = testResult.duration / 1000;
-      
+
       xml += `    <testcase name="${this.escapeXml(testName)}" time="${duration}"`;
-      
+
       if (testResult.status === 'failed') {
         xml += `>\n`;
         xml += `      <failure message="${this.escapeXml(testResult.error || 'Test failed')}">\n`;
@@ -238,10 +238,10 @@ export class CIReporter implements Reporter {
         xml += `/>\n`;
       }
     }
-    
+
     xml += `  </testsuite>\n`;
     xml += `</testsuites>\n`;
-    
+
     return xml;
   }
 
@@ -252,7 +252,7 @@ export class CIReporter implements Reporter {
 
     // Group failures by error pattern
     const errorPatterns = new Map<string, any[]>();
-    
+
     for (const test of failedTests) {
       if (test.error) {
         const errorKey = this.extractErrorPattern(test.error);
@@ -264,7 +264,7 @@ export class CIReporter implements Reporter {
     }
 
     analysis += `## Error Patterns\n\n`;
-    
+
     for (const [pattern, tests] of errorPatterns) {
       analysis += `### ${pattern} (${tests.length} tests)\n\n`;
       analysis += `**Affected tests:**\n`;
@@ -292,7 +292,7 @@ export class CIReporter implements Reporter {
     if (error.includes('Navigation timeout')) return 'Navigation Timeout';
     if (error.includes('Network')) return 'Network Error';
     if (error.includes('Authentication')) return 'Authentication Error';
-    
+
     // Fallback to first line of error
     return error.split('\n')[0] || 'Unknown Error';
   }
@@ -314,7 +314,7 @@ export class CIReporter implements Reporter {
 
   private logFinalSummary(summary: any): void {
     const { summary: testSummary, timing } = summary;
-    
+
     console.log('\n' + '='.repeat(60));
     console.log('📊 E2E TEST SUMMARY');
     console.log('='.repeat(60));
@@ -324,7 +324,7 @@ export class CIReporter implements Reporter {
     console.log(`⏱️ Timed Out:  ${testSummary.timedOut}`);
     console.log(`⏱️ Duration:   ${timing.totalDurationFormatted}`);
     console.log('='.repeat(60));
-    
+
     if (testSummary.summary.failed > 0) {
       console.log('❌ Some tests failed. Check the reports for details.');
     } else {

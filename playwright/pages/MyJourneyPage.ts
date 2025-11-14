@@ -58,4 +58,4 @@ export class MyJourneyPage {
     await courseNode.click();
     await this.page.waitForLoadState('networkidle');
   }
-} 
+}

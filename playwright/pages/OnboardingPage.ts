@@ -34,14 +34,14 @@ export class OnboardingPage {
   async selectInstitution(name: string): Promise<void> {
     // Click to open dropdown
     await this.universitySelect.click();
-    
+
     // Wait for dropdown to appear
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     // Look for the university option and click it
     const option = this.page.locator('[role="option"]', { hasText: name });
     await option.click();
-    
+
     // Wait for dropdown to close
     await this.page.locator('[role="listbox"]').waitFor({ state: 'hidden' });
   }
@@ -52,14 +52,14 @@ export class OnboardingPage {
   async selectDegree(name: string): Promise<void> {
     // Click to open dropdown
     await this.degreeSelect.click();
-    
+
     // Wait for dropdown to appear
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     // Look for the degree option and click it
     const option = this.page.locator('[role="option"]', { hasText: name });
     await option.click();
-    
+
     // Wait for dropdown to close
     await this.page.locator('[role="listbox"]').waitFor({ state: 'hidden' });
   }
@@ -70,10 +70,10 @@ export class OnboardingPage {
   async searchUniversity(searchTerm: string): Promise<void> {
     await this.universitySelect.click();
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     const searchInput = this.page.locator('input[placeholder*="search" i], input[placeholder*="חיפוש" i]');
     await searchInput.fill(searchTerm);
-    
+
     // Wait for debounced search results
     await this.page.waitForTimeout(500);
   }
@@ -84,10 +84,10 @@ export class OnboardingPage {
   async searchDegree(searchTerm: string): Promise<void> {
     await this.degreeSelect.click();
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     const searchInput = this.page.locator('input[placeholder*="search" i], input[placeholder*="חיפוש" i]');
     await searchInput.fill(searchTerm);
-    
+
     // Wait for debounced search results
     await this.page.waitForTimeout(500);
   }
@@ -98,13 +98,13 @@ export class OnboardingPage {
   async getUniversityOptions(): Promise<string[]> {
     await this.universitySelect.click();
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     const options = this.page.locator('[role="option"]');
     const optionTexts = await options.allTextContents();
-    
+
     // Close dropdown
     await this.page.keyboard.press('Escape');
-    
+
     return optionTexts;
   }
 
@@ -114,13 +114,13 @@ export class OnboardingPage {
   async getDegreeOptions(): Promise<string[]> {
     await this.degreeSelect.click();
     await this.page.locator('[role="listbox"]').waitFor({ state: 'visible' });
-    
+
     const options = this.page.locator('[role="option"]');
     const optionTexts = await options.allTextContents();
-    
+
     // Close dropdown
     await this.page.keyboard.press('Escape');
-    
+
     return optionTexts;
   }
 
@@ -209,15 +209,15 @@ export class OnboardingPage {
   async getValidationErrors(): Promise<string[]> {
     const errorSelectors = [
       'text=/university.*required/i',
-      'text=/degree.*required/i', 
+      'text=/degree.*required/i',
       'text=/terms.*required/i',
       'text=/אוניברסיטה.*נדרש/i',
       'text=/תואר.*נדרש/i',
       'text=/הסכם.*נדרש/i'
     ];
-    
+
     const errors: string[] = [];
-    
+
     for (const selector of errorSelectors) {
       const errorElement = this.page.locator(selector);
       if (await errorElement.isVisible()) {
@@ -225,7 +225,7 @@ export class OnboardingPage {
         if (text) errors.push(text);
       }
     }
-    
+
     return errors;
   }
 

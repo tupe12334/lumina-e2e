@@ -60,7 +60,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     for (const button of buttons) {
       const elements = page.locator(button.selector);
       const count = await elements.count();
-      
+
       for (let i = 0; i < Math.min(count, 3); i++) {
         const element = elements.nth(i);
         if (await element.isVisible()) {
@@ -120,7 +120,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
       // Try to trigger validation by submitting empty form
       await submitButton.click();
       await page.waitForTimeout(500);
-      
+
       await screenshotHelpers.takeAnnotatedScreenshot('form-validation-errors', {
         description: 'Form with validation errors displayed',
         testType: 'validation',
@@ -137,7 +137,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     });
 
     await page.goto('/degrees');
-    
+
     // Try to capture loading state
     const loadingElements = [
       '[data-testid="loading"]',
@@ -166,7 +166,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     // 404 Error page
     await page.goto('/non-existent-page-test-404');
     await screenshotHelpers.prepareForScreenshot();
-    
+
     await screenshotHelpers.takeAnnotatedScreenshot('404-error-page', {
       description: 'Page not found (404) error state',
       testType: 'error',
@@ -177,7 +177,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     await page.route('**/api/**', route => route.abort());
     await page.goto('/degrees');
     await page.waitForTimeout(2000);
-    
+
     const errorElements = [
       '[data-testid="error"]',
       '.error',
@@ -214,13 +214,13 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     for (const selector of focusableElements) {
       const elements = page.locator(selector);
       const count = await elements.count();
-      
+
       for (let i = 0; i < Math.min(count, 5); i++) {
         const element = elements.nth(i);
         if (await element.isVisible()) {
           await element.focus();
           await page.waitForTimeout(300);
-          
+
           await screenshotHelpers.takeAnnotatedScreenshot(`focus-state-${selector.replace(/[[\]":]/g, '')}-${i}`, {
             description: `Focus state for ${selector} element ${i}`,
             testType: 'accessibility',
@@ -233,7 +233,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
 
   test('Theme variation screenshots @screenshot', async ({ page }) => {
     const themes = ['light', 'dark', 'system'];
-    
+
     for (const theme of themes) {
       // Set theme
       await page.evaluate((themeName) => {
@@ -243,10 +243,10 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
           document.documentElement.classList.add(themeName);
         }
       }, theme);
-      
+
       await page.reload();
       await screenshotHelpers.prepareForScreenshot();
-      
+
       await screenshotHelpers.takeAnnotatedScreenshot(`home-page-${theme}-theme`, {
         description: `Home page with ${theme} theme applied`,
         testType: 'theme',
@@ -298,7 +298,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     for (const selector of animatedSelectors) {
       const elements = page.locator(selector);
       const count = await elements.count();
-      
+
       for (let i = 0; i < Math.min(count, 3); i++) {
         const element = elements.nth(i);
         if (await element.isVisible()) {
@@ -319,7 +319,7 @@ test.describe('Enhanced Screenshot Testing Suite', () => {
     for (const pageInfo of pages) {
       await page.goto(pageInfo.url);
       await screenshotHelpers.prepareForScreenshot();
-      
+
       // Full page screenshot
       await screenshotHelpers.takeAnnotatedScreenshot(`${pageInfo.name}-page-complete`, {
         description: pageInfo.description,

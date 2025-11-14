@@ -12,7 +12,7 @@ export class ScreenshotHelpers {
    * Take a full page screenshot with standardized naming
    */
   async takePageScreenshot(
-    name: string, 
+    name: string,
     options: {
       fullPage?: boolean;
       mask?: Locator[];
@@ -20,11 +20,11 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { fullPage = false, mask = [], prepare = true } = options;
-    
+
     if (prepare) {
       await this.visualHelpers.prepareForScreenshot();
     }
-    
+
     return expect(this.page).toHaveScreenshot(`${name}.png`, {
       fullPage,
       mask,
@@ -43,11 +43,11 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { mask = [], prepare = true } = options;
-    
+
     if (prepare) {
       await this.visualHelpers.prepareForScreenshot();
     }
-    
+
     return expect(element).toHaveScreenshot(`${name}.png`, {
       mask,
     });
@@ -66,7 +66,7 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { element, waitAfter = 500, fullPage = false } = options;
-    
+
     // Before screenshot
     await this.visualHelpers.prepareForScreenshot();
     if (element) {
@@ -74,13 +74,13 @@ export class ScreenshotHelpers {
     } else {
       await expect(this.page).toHaveScreenshot(`${baseName}-before.png`, { fullPage });
     }
-    
+
     // Perform interaction
     await interaction();
-    
+
     // Wait for changes to settle
     await this.page.waitForTimeout(waitAfter);
-    
+
     // After screenshot
     await this.visualHelpers.prepareForScreenshot();
     if (element) {
@@ -102,11 +102,11 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { includeConsole = true, includeNetwork = false } = options;
-    
+
     try {
       // Screenshot of current state
       await expect(this.page).toHaveScreenshot(`error-${testName}-${Date.now()}.png`);
-      
+
       if (includeConsole) {
         // Get console logs
         const logs = await this.page.evaluate(() => {
@@ -114,7 +114,7 @@ export class ScreenshotHelpers {
         });
         console.log(`Console logs for ${testName}:`, logs);
       }
-      
+
       if (includeNetwork) {
         // Log network requests if available
         console.log(`Error in ${testName}:`, error.message);
@@ -136,13 +136,13 @@ export class ScreenshotHelpers {
     ]
   ) {
     const originalViewport = this.page.viewportSize();
-    
+
     for (const viewport of viewports) {
       await this.page.setViewportSize({ width: viewport.width, height: viewport.height });
       await this.visualHelpers.prepareForScreenshot();
       await expect(this.page).toHaveScreenshot(`${baseName}-${viewport.name}.png`);
     }
-    
+
     // Restore original viewport
     if (originalViewport) {
       await this.page.setViewportSize(originalViewport);
@@ -158,7 +158,7 @@ export class ScreenshotHelpers {
     states: ('default' | 'hover' | 'focus' | 'active')[] = ['default', 'hover', 'focus']
   ) {
     await this.visualHelpers.prepareForScreenshot();
-    
+
     for (const state of states) {
       switch (state) {
         case 'default':
@@ -198,15 +198,15 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { loadingSelector = '.animate-spin, [data-testid="loading"], .loading', maxWait = 5000, element } = options;
-    
+
     // Before action
     await this.visualHelpers.prepareForScreenshot();
     const target = element || this.page;
     await expect(target).toHaveScreenshot(`${baseName}-initial.png`);
-    
+
     // Trigger action and immediately try to capture loading
     await triggerAction();
-    
+
     // Try to capture loading state
     try {
       await this.page.waitForSelector(loadingSelector, { timeout: 1000 });
@@ -214,10 +214,10 @@ export class ScreenshotHelpers {
     } catch {
       // Loading state might be too fast to capture
     }
-    
+
     // Wait for loading to complete
     await this.page.waitForLoadState('networkidle', { timeout: maxWait });
-    
+
     // Final state
     await this.visualHelpers.prepareForScreenshot();
     await expect(target).toHaveScreenshot(`${baseName}-completed.png`);
@@ -235,13 +235,13 @@ export class ScreenshotHelpers {
     // Capture initial state
     await this.visualHelpers.prepareForScreenshot();
     await expect(element).toHaveScreenshot(`${baseName}-before-change.png`);
-    
+
     // Perform data change
     await dataChangeAction();
-    
+
     // Wait for changes to reflect
     await this.page.waitForTimeout(waitTime);
-    
+
     // Capture final state
     await this.visualHelpers.prepareForScreenshot();
     await expect(element).toHaveScreenshot(`${baseName}-after-change.png`);
@@ -264,7 +264,7 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { fullPage = false, mask = [] } = options;
-    
+
     // Store metadata for reporting
     const timestamp = new Date().toISOString();
     const annotationData = {
@@ -272,13 +272,13 @@ export class ScreenshotHelpers {
       timestamp,
       filename: `${name}.png`
     };
-    
+
     // Store in page context for potential report generation
     await this.page.evaluate((data) => {
       (window as any).__screenshotMetadata = (window as any).__screenshotMetadata || [];
       (window as any).__screenshotMetadata.push(data);
     }, annotationData);
-    
+
     await this.visualHelpers.prepareForScreenshot();
     return expect(this.page).toHaveScreenshot(`${name}.png`, {
       fullPage,
@@ -299,7 +299,7 @@ export class ScreenshotHelpers {
     } = {}
   ) {
     const { borderColor = 'red', borderWidth = 2, backgroundColor } = highlightOptions;
-    
+
     // Add highlight styling
     await element.evaluate((el, options) => {
       el.style.outline = `${options.borderWidth}px solid ${options.borderColor}`;
@@ -308,17 +308,17 @@ export class ScreenshotHelpers {
       }
       el.style.outlineOffset = '2px';
     }, { borderColor, borderWidth, backgroundColor });
-    
+
     await this.visualHelpers.prepareForScreenshot();
     const result = await expect(this.page).toHaveScreenshot(`${name}.png`);
-    
+
     // Remove highlight styling
     await element.evaluate((el) => {
       el.style.outline = '';
       el.style.outlineOffset = '';
       el.style.backgroundColor = '';
     });
-    
+
     return result;
   }
 
@@ -338,7 +338,7 @@ export class ScreenshotHelpers {
         timestamp: new Date().toISOString()
       });
     }, description);
-    
+
     await this.visualHelpers.prepareForScreenshot();
     return expect(element).toHaveScreenshot(`component-${name}.png`);
   }
@@ -352,7 +352,7 @@ export class ScreenshotHelpers {
     states: string[]
   ) {
     const results = [];
-    
+
     for (const state of states) {
       switch (state) {
         case 'default':
@@ -378,7 +378,7 @@ export class ScreenshotHelpers {
           break;
       }
     }
-    
+
     return results;
   }
 
@@ -390,16 +390,16 @@ export class ScreenshotHelpers {
     viewport: { width: number; height: number }
   ) {
     const originalViewport = this.page.viewportSize();
-    
+
     await this.page.setViewportSize(viewport);
     await this.visualHelpers.prepareForScreenshot();
     const result = await expect(this.page).toHaveScreenshot(`responsive-${name}.png`);
-    
+
     // Restore original viewport
     if (originalViewport) {
       await this.page.setViewportSize(originalViewport);
     }
-    
+
     return result;
   }
 
@@ -411,22 +411,22 @@ export class ScreenshotHelpers {
     baseName: string
   ) {
     const results = [];
-    
+
     // Empty state
     await element.clear();
     await this.visualHelpers.prepareForScreenshot();
     results.push(await expect(element).toHaveScreenshot(`${baseName}-empty.png`));
-    
+
     // Focused state
     await element.focus();
     await this.page.waitForTimeout(300);
     results.push(await expect(element).toHaveScreenshot(`${baseName}-focused.png`));
-    
+
     // Filled state
     await element.fill('test@example.com');
     await this.page.waitForTimeout(300);
     results.push(await expect(element).toHaveScreenshot(`${baseName}-filled.png`));
-    
+
     return results;
   }
 
@@ -455,13 +455,13 @@ export class ScreenshotHelpers {
     frameCount = 3
   ) {
     const results = [];
-    
+
     for (let i = 0; i < frameCount; i++) {
       await this.page.waitForTimeout(300 * i); // Capture at different timing
       await this.visualHelpers.prepareForScreenshot();
       results.push(await expect(element).toHaveScreenshot(`${baseName}-frame-${i}.png`));
     }
-    
+
     return results;
   }
 
@@ -475,7 +475,7 @@ export class ScreenshotHelpers {
         components: (window as any).__componentMetadata || []
       };
     });
-    
+
     if (metadata.screenshots.length > 0 || metadata.components.length > 0) {
       console.log('Screenshot Test Report:', JSON.stringify(metadata, null, 2));
     }

@@ -14,31 +14,31 @@ export class DebugHelpers {
   async captureDebugInfo(error: Error, context: string = ''): Promise<void> {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const debugDir = path.join(this.testInfo.outputDir, `debug-${timestamp}`);
-    
+
     await fs.mkdir(debugDir, { recursive: true });
-    
+
     try {
       // 1. Capture screenshot
       await this.captureScreenshot(debugDir, 'error-screenshot.png');
-      
+
       // 2. Capture page HTML
       await this.capturePageHTML(debugDir, 'page-source.html');
-      
+
       // 3. Capture console logs
       await this.captureConsoleLogs(debugDir, 'console-logs.txt');
-      
+
       // 4. Capture network logs
       await this.captureNetworkActivity(debugDir, 'network-activity.json');
-      
+
       // 5. Capture local storage and session storage
       await this.captureStorageState(debugDir, 'storage-state.json');
-      
+
       // 6. Capture DOM snapshot
       await this.captureDOMSnapshot(debugDir, 'dom-snapshot.txt');
-      
+
       // 7. Create debug report
       await this.createDebugReport(debugDir, error, context);
-      
+
       console.log(`Debug information captured in: ${debugDir}`);
     } catch (debugError) {
       console.warn('Failed to capture debug information:', debugError);
@@ -81,7 +81,7 @@ export class DebugHelpers {
       const logs = await this.page.evaluate(() => {
         return (window as any).__consoleLogs__ || [];
       });
-      
+
       await fs.writeFile(
         path.join(debugDir, filename),
         JSON.stringify(logs, null, 2),
@@ -100,7 +100,7 @@ export class DebugHelpers {
       const networkActivity = await this.page.evaluate(() => {
         return (window as any).__networkActivity__ || [];
       });
-      
+
       await fs.writeFile(
         path.join(debugDir, filename),
         JSON.stringify(networkActivity, null, 2),
@@ -121,15 +121,15 @@ export class DebugHelpers {
           acc[key] = window.localStorage.getItem(key);
           return acc;
         }, {} as Record<string, string | null>);
-        
+
         const sessionStorage = Object.keys(window.sessionStorage).reduce((acc, key) => {
           acc[key] = window.sessionStorage.getItem(key);
           return acc;
         }, {} as Record<string, string | null>);
-        
+
         return { localStorage, sessionStorage };
       });
-      
+
       await fs.writeFile(
         path.join(debugDir, filename),
         JSON.stringify(storageState, null, 2),
@@ -151,10 +151,10 @@ export class DebugHelpers {
           NodeFilter.SHOW_ELEMENT,
           null,
         );
-        
+
         const elements = [];
         let node = walker.nextNode();
-        
+
         while (node && elements.length < 1000) { // Limit to prevent huge files
           const element = node as Element;
           elements.push({
@@ -165,10 +165,10 @@ export class DebugHelpers {
           });
           node = walker.nextNode();
         }
-        
+
         return elements;
       });
-      
+
       await fs.writeFile(
         path.join(debugDir, filename),
         JSON.stringify(domSnapshot, null, 2),
@@ -211,7 +211,7 @@ export class DebugHelpers {
         version: this.testInfo.project.use?.channel || 'default',
       },
     };
-    
+
     await fs.writeFile(
       path.join(debugDir, 'debug-report.json'),
       JSON.stringify(report, null, 2),
@@ -228,14 +228,14 @@ export class DebugHelpers {
   ): Promise<void> {
     const timeout = options.timeout || 10000;
     const state = options.state || 'visible';
-    
+
     try {
       await locator.waitFor({ ...options, timeout });
     } catch (error) {
       // Enhanced error information
       const selector = locator.toString();
       const count = await locator.count();
-      
+
       const enhancedError = new Error(
         `Element wait failed: ${selector}\n` +
         `Expected state: ${state}\n` +
@@ -243,7 +243,7 @@ export class DebugHelpers {
         `Page URL: ${this.page.url()}\n` +
         `Original error: ${error instanceof Error ? error.message : String(error)}`
       );
-      
+
       await this.captureDebugInfo(enhancedError, `waitForElement: ${selector}`);
       throw enhancedError;
     }
@@ -254,23 +254,23 @@ export class DebugHelpers {
    */
   async clickWithDebug(locator: Locator, options: Parameters<Locator['click']>[0] = {}): Promise<void> {
     const selector = locator.toString();
-    
+
     try {
       // Ensure element is ready for interaction
       await locator.waitFor({ state: 'visible' });
       await locator.scrollIntoViewIfNeeded();
-      
+
       // Highlight element before clicking (in debug mode)
       if (process.env.DEBUG_TESTS) {
         await locator.highlight();
         await this.page.waitForTimeout(500);
       }
-      
+
       await locator.click(options);
     } catch (error) {
       const count = await locator.count();
       const isVisible = count > 0 ? await locator.first().isVisible() : false;
-      
+
       const enhancedError = new Error(
         `Click failed: ${selector}\n` +
         `Element count: ${count}\n` +
@@ -278,7 +278,7 @@ export class DebugHelpers {
         `Page URL: ${this.page.url()}\n` +
         `Original error: ${error instanceof Error ? error.message : String(error)}`
       );
-      
+
       await this.captureDebugInfo(enhancedError, `click: ${selector}`);
       throw enhancedError;
     }
@@ -289,19 +289,19 @@ export class DebugHelpers {
    */
   async fillWithDebug(locator: Locator, value: string): Promise<void> {
     const selector = locator.toString();
-    
+
     try {
       await locator.waitFor({ state: 'visible' });
       await locator.scrollIntoViewIfNeeded();
-      
+
       if (process.env.DEBUG_TESTS) {
         await locator.highlight();
         await this.page.waitForTimeout(300);
       }
-      
+
       await locator.clear();
       await locator.fill(value);
-      
+
       // Verify the value was set correctly
       const actualValue = await locator.inputValue();
       if (actualValue !== value) {
@@ -314,7 +314,7 @@ export class DebugHelpers {
         `Page URL: ${this.page.url()}\n` +
         `Original error: ${error instanceof Error ? error.message : String(error)}`
       );
-      
+
       await this.captureDebugInfo(enhancedError, `fill: ${selector}`);
       throw enhancedError;
     }
@@ -326,7 +326,7 @@ export class DebugHelpers {
   logStep(step: string, details?: Record<string, unknown>): void {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] STEP: ${step}`;
-    
+
     if (details) {
       console.log(logMessage, details);
     } else {
@@ -351,7 +351,7 @@ export class DebugHelpers {
         `Additional info: ${additionalInfo ? JSON.stringify(additionalInfo) : 'None'}\n` +
         `Original error: ${error instanceof Error ? error.message : String(error)}`
       );
-      
+
       await this.captureDebugInfo(enhancedError, `assertion: ${context}`);
       throw enhancedError;
     }

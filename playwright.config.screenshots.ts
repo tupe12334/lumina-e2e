@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as process from 'process';
+import { env } from 'process';
 
-const isCI = Boolean(process.env.CI);
-const baseURL = process.env.E2E_BASE_URL || 'http://localhost:5173';
+const isCI = Boolean(env.CI);
+const baseURL = env.E2E_BASE_URL || 'http://localhost:5173';
 
 /**
  * Configuration specifically optimized for screenshot testing
@@ -51,7 +51,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium-screenshots',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         // Chrome-specific screenshot settings
         launchOptions: {
@@ -68,7 +68,7 @@ export default defineConfig({
     },
     {
       name: 'firefox-screenshots',
-      use: { 
+      use: {
         ...devices['Desktop Firefox'],
         // Firefox-specific settings for consistent screenshots
         launchOptions: {
@@ -81,7 +81,7 @@ export default defineConfig({
     },
     {
       name: 'webkit-screenshots',
-      use: { 
+      use: {
         ...devices['Desktop Safari'],
         // WebKit-specific settings
         launchOptions: {
@@ -92,7 +92,7 @@ export default defineConfig({
     // Mobile screenshot projects
     {
       name: 'mobile-chrome-screenshots',
-      use: { 
+      use: {
         ...devices['Pixel 5'],
         // Mobile-specific screenshot settings
         hasTouch: true,
@@ -101,7 +101,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-safari-screenshots',
-      use: { 
+      use: {
         ...devices['iPhone 12'],
         hasTouch: true,
         isMobile: true,

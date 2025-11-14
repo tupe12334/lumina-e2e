@@ -1,0 +1,467 @@
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright.config.screenshots.ts
+  5:37  error  Avoid hardcoded "localhost". Use environment variables instead                    default/no-localhost
+  5:37  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead  default/no-hardcoded-urls
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright.config.simple.ts
+  5:37  error  Avoid hardcoded "localhost". Use environment variables instead                    default/no-localhost
+  5:37  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead  default/no-hardcoded-urls
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/auth-flow.spec.ts
+  1:1  error  Spec file "auth-flow.spec.ts" has no corresponding implementation file "auth-flow.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/auth-return-url-simple.spec.ts
+   1:1   error  Spec file "auth-return-url-simple.spec.ts" has no corresponding implementation file "auth-return-url-simple.ts"  ddd/require-spec-file
+  29:15  error  Optional property access is not allowed                                                                          no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/auth-return-url.spec.ts
+  1:1  error  Spec file "auth-return-url.spec.ts" has no corresponding implementation file "auth-return-url.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/component-screenshots.spec.ts
+  1:1  error  Spec file "component-screenshots.spec.ts" has no corresponding implementation file "component-screenshots.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/comprehensive-user-journeys.spec.ts
+  1:1  error  Spec file "comprehensive-user-journeys.spec.ts" has no corresponding implementation file "comprehensive-user-journeys.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/course-status.spec.ts
+  1:1  error  Spec file "course-status.spec.ts" has no corresponding implementation file "course-status.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/debug-app.spec.ts
+  1:1  error  Spec file "debug-app.spec.ts" has no corresponding implementation file "debug-app.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/degree-popup.spec.ts
+  1:1  error  Spec file "degree-popup.spec.ts" has no corresponding implementation file "degree-popup.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/enhanced-screenshot-testing.spec.ts
+  1:1  error  Spec file "enhanced-screenshot-testing.spec.ts" has no corresponding implementation file "enhanced-screenshot-testing.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/error-pages.spec.ts
+    1:1   error  Spec file "error-pages.spec.ts" has no corresponding implementation file "error-pages.ts"  ddd/require-spec-file
+  157:56  error  Optional property access is not allowed                                                    no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/feedback-summary-updates.spec.ts
+    1:1   error  Spec file "feedback-summary-updates.spec.ts" has no corresponding implementation file "feedback-summary-updates.ts"  ddd/require-spec-file
+   42:25  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+   94:31  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  135:28  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  247:32  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  262:21  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/first-time-language-selection.spec.ts
+    1:1   error  Spec file "first-time-language-selection.spec.ts" has no corresponding implementation file "first-time-language-selection.ts"  ddd/require-spec-file
+   69:14  error  Optional property access is not allowed                                                                                        no-optional-chaining/no-optional-chaining
+  109:14  error  Optional property access is not allowed                                                                                        no-optional-chaining/no-optional-chaining
+  138:14  error  Optional property access is not allowed                                                                                        no-optional-chaining/no-optional-chaining
+  184:14  error  Optional property access is not allowed                                                                                        no-optional-chaining/no-optional-chaining
+  215:14  error  Optional property access is not allowed                                                                                        no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/fixtures/auth-fixtures.ts
+    1:1   error  Missing spec file: "auth-fixtures.spec.ts" should exist alongside this file                                                                                                                                                                         ddd/require-spec-file
+   19:1   error  Only one export is allowed per file. Found 2 exports. Split functionality across multiple files following domain boundaries                                                                                                                         single-export/single-export
+   23:27  error  Unexpected empty object pattern                                                                                                                                                                                                                     no-empty-pattern
+   25:11  error  React Hook "use" is called in function "testDataManager" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"    react-hooks/rules-of-hooks
+   36:11  error  React Hook "use" is called in function "apiClient" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"          react-hooks/rules-of-hooks
+   48:13  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario                                                                                                                                  error/no-generic-error
+   48:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                                                                                                                                               error/require-custom-error
+   54:13  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario                                                                                                                                  error/no-generic-error
+   54:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                                                                                                                                               error/require-custom-error
+   65:11  error  React Hook "use" is called in function "authenticatedUser" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"  react-hooks/rules-of-hooks
+   80:32  error  Avoid hardcoded "localhost". Use environment variables instead                                                                                                                                                                                      default/no-localhost
+   80:32  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                                                                                                                                                    default/no-hardcoded-urls
+   94:11  error  React Hook "use" is called in function "authenticatedPage" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"  react-hooks/rules-of-hooks
+  106:13  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario                                                                                                                                  error/no-generic-error
+  106:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                                                                                                                                               error/require-custom-error
+  111:13  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario                                                                                                                                  error/no-generic-error
+  111:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                                                                                                                                               error/require-custom-error
+  122:32  error  Avoid hardcoded "localhost". Use environment variables instead                                                                                                                                                                                      default/no-localhost
+  122:32  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                                                                                                                                                    default/no-hardcoded-urls
+  138:11  error  React Hook "use" is called in function "onboardedUser" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"      react-hooks/rules-of-hooks
+  153:32  error  Avoid hardcoded "localhost". Use environment variables instead                                                                                                                                                                                      default/no-localhost
+  153:32  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                                                                                                                                                    default/no-hardcoded-urls
+  160:1   error  File has too many lines (116). Maximum allowed is 100                                                                                                                                                                                               max-lines
+  174:11  error  React Hook "use" is called in function "onboardedPage" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"      react-hooks/rules-of-hooks
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/global-setup.ts
+   1:1   error  Missing spec file: "global-setup.spec.ts" should exist alongside this file                                                       ddd/require-spec-file
+   5:53  error  Avoid hardcoded "localhost". Use environment variables instead                                                                   default/no-localhost
+   5:53  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                                 default/no-hardcoded-urls
+  16:11  error  Avoid throwing generic Error. Consider using TimeoutError instead. Ensure you have tests covering this error scenario            error/no-generic-error
+  16:11  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                            error/require-custom-error
+  29:21  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  29:31  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+  35:8   error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  35:18  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+  40:32  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  40:42  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+  47:8   error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  47:18  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+  55:13  error  Avoid throwing generic Error. Consider using CustomError instead. Ensure you have tests covering this error scenario             error/no-generic-error
+  55:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                            error/require-custom-error
+  69:11  error  Expected an error object to be thrown. Ensure you have tests covering this error scenario                                        error/no-throw-literal
+  76:3   error  Direct access to process.env properties is not allowed. Use process.env as a whole object instead (e.g., validate(process.env))  no-restricted-syntax
+  77:3   error  Direct access to process.env properties is not allowed. Use process.env as a whole object instead (e.g., validate(process.env))  no-restricted-syntax
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/global-teardown.ts
+   1:1   error  Missing spec file: "global-teardown.spec.ts" should exist alongside this file     ddd/require-spec-file
+   8:53  error  Avoid hardcoded "localhost". Use environment variables instead                    default/no-localhost
+   8:53  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead  default/no-hardcoded-urls
+  32:30  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  32:44  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  63:23  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  63:37  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  64:27  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  64:41  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  69:13  error  Found mkdir from package "fs" with non literal argument at index 0                security/detect-non-literal-fs-filename
+  70:13  error  Found writeFile from package "fs" with non literal argument at index 0            security/detect-non-literal-fs-filename
+  82:13  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  82:27  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  83:13  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  83:27  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  84:13  error  Type assertions with "as" are not allowed except for "as const"                   no-restricted-syntax
+  84:27  error  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/google-login-check.spec.ts
+   1:1   error  Spec file "google-login-check.spec.ts" has no corresponding implementation file "google-login-check.ts"  ddd/require-spec-file
+  89:19  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  92:20  error  Type assertions with "as" are not allowed except for "as const"                                          no-restricted-syntax
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/hebrew-onboarding-flow.spec.ts
+    1:1   error  Spec file "hebrew-onboarding-flow.spec.ts" has no corresponding implementation file "hebrew-onboarding-flow.ts"  ddd/require-spec-file
+  448:13  error  Optional property access is not allowed                                                                          no-optional-chaining/no-optional-chaining
+  448:13  error  Optional property access is not allowed                                                                          no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/i18n.spec.ts
+  1:1  error  Spec file "i18n.spec.ts" has no corresponding implementation file "i18n.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/manual-my-courses-check.spec.ts
+    1:1   error  Spec file "manual-my-courses-check.spec.ts" has no corresponding implementation file "manual-my-courses-check.ts"  ddd/require-spec-file
+  144:17  error  Optional property access is not allowed                                                                            no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/mobile-filters.spec.ts
+    1:1   error  Spec file "mobile-filters.spec.ts" has no corresponding implementation file "mobile-filters.ts"  ddd/require-spec-file
+  349:10  error  Type assertions with "as" are not allowed except for "as const"                                  no-restricted-syntax
+  349:20  error  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
+  355:12  error  Type assertions with "as" are not allowed except for "as const"                                  no-restricted-syntax
+  355:22  error  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
+  375:20  error  Type assertions with "as" are not allowed except for "as const"                                  no-restricted-syntax
+  375:30  error  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/navigation-flow.spec.ts
+  1:1  error  Spec file "navigation-flow.spec.ts" has no corresponding implementation file "navigation-flow.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/notfound.spec.ts
+  1:1  error  Spec file "notfound.spec.ts" has no corresponding implementation file "notfound.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/oidc-keycloak-auth.spec.ts
+   1:1   error  Spec file "oidc-keycloak-auth.spec.ts" has no corresponding implementation file "oidc-keycloak-auth.ts"  ddd/require-spec-file
+  34:55  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/CoursePage.ts
+  1:1  error  Missing spec file: "CoursePage.spec.ts" should exist alongside this file  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/DegreesPage.ts
+    1:1  error  Missing spec file: "DegreesPage.spec.ts" should exist alongside this file  ddd/require-spec-file
+  179:1  error  File has too many lines (135). Maximum allowed is 100                      max-lines
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/LearningJourneyPage.ts
+    1:1  error  Missing spec file: "LearningJourneyPage.spec.ts" should exist alongside this file  ddd/require-spec-file
+  168:1  error  File has too many lines (126). Maximum allowed is 100                              max-lines
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/LoginPage.ts
+  1:1  error  Missing spec file: "LoginPage.spec.ts" should exist alongside this file  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/MyJourneyPage.ts
+  1:1  error  Missing spec file: "MyJourneyPage.spec.ts" should exist alongside this file  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/OnboardingPage.ts
+    1:1   error  Missing spec file: "OnboardingPage.spec.ts" should exist alongside this file  ddd/require-spec-file
+  132:12  error  Optional property access is not allowed                                       no-optional-chaining/no-optional-chaining
+  140:12  error  Optional property access is not allowed                                       no-optional-chaining/no-optional-chaining
+  197:1   error  File has too many lines (133). Maximum allowed is 100                         max-lines
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/QuestionPage.ts
+    1:1   error  Missing spec file: "QuestionPage.spec.ts" should exist alongside this file                                          ddd/require-spec-file
+   56:13  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario  error/no-generic-error
+   56:13  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario               error/require-custom-error
+   59:11  error  Generic Object Injection Sink                                                                                       security/detect-object-injection
+  167:1   error  File has too many lines (140). Maximum allowed is 100                                                               max-lines
+  189:12  error  Optional property access is not allowed                                                                             no-optional-chaining/no-optional-chaining
+  227:51  error  Default values in methods are not allowed. Handle defaults in the method body                                       default/no-default-params
+  227:51  error  Default values in methods are not allowed. Handle defaults in the method body                                       default/no-default-params
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/pages/Sidebar.ts
+  1:1  error  Missing spec file: "Sidebar.spec.ts" should exist alongside this file  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/profile-setup-basic.spec.ts
+  1:1  error  Spec file "profile-setup-basic.spec.ts" has no corresponding implementation file "profile-setup-basic.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/profile-setup-step-comprehensive.spec.ts
+    1:1   error  Spec file "profile-setup-step-comprehensive.spec.ts" has no corresponding implementation file "profile-setup-step-comprehensive.ts"  ddd/require-spec-file
+  116:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  116:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  361:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  361:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  386:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  386:13  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  389:20  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+  389:20  error  Optional property access is not allowed                                                                                              no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/profile-setup-step.spec.ts
+    1:1   error  Spec file "profile-setup-step.spec.ts" has no corresponding implementation file "profile-setup-step.ts"  ddd/require-spec-file
+   65:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+   65:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  416:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  416:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  448:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  448:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  451:20  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  451:20  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  484:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+  484:13  error  Optional property access is not allowed                                                                  no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/protected-paths.spec.ts
+  1:1  error  Spec file "protected-paths.spec.ts" has no corresponding implementation file "protected-paths.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/question-answer.spec.ts
+   1:1   error  Spec file "question-answer.spec.ts" has no corresponding implementation file "question-answer.ts"  ddd/require-spec-file
+  34:11  error  Optional property access is not allowed                                                            no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/question-feedback.spec.ts
+    1:1   error  Spec file "question-feedback.spec.ts" has no corresponding implementation file "question-feedback.ts"  ddd/require-spec-file
+  226:16  error  Optional property access is not allowed                                                                no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/question-types-comprehensive.spec.ts
+    1:1   error  Spec file "question-types-comprehensive.spec.ts" has no corresponding implementation file "question-types-comprehensive.ts"  ddd/require-spec-file
+   44:13  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+   67:38  error  Generic Object Injection Sink                                                                                                security/detect-object-injection
+  199:46  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  199:63  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  199:81  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  293:43  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  293:61  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  320:40  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  320:56  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  390:44  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+  390:61  error  Unexpected any. Specify a different type                                                                                     @typescript-eslint/no-explicit-any
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/quick-my-courses-check.spec.ts
+    1:1   error  Spec file "quick-my-courses-check.spec.ts" has no corresponding implementation file "quick-my-courses-check.ts"  ddd/require-spec-file
+  101:17  error  Optional property access is not allowed                                                                          no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/registration-with-settings.spec.ts
+    1:1   error  Spec file "registration-with-settings.spec.ts" has no corresponding implementation file "registration-with-settings.ts"  ddd/require-spec-file
+   90:14  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  136:14  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  184:14  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  227:19  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  228:16  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  229:21  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  230:27  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  235:12  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  236:12  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  237:12  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  238:12  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+  293:14  error  Optional property access is not allowed                                                                                  no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/settings-error-handling.spec.ts
+   1:1   error  Spec file "settings-error-handling.spec.ts" has no corresponding implementation file "settings-error-handling.ts"  ddd/require-spec-file
+  93:14  error  Optional property access is not allowed                                                                            no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/smoke-basic.spec.ts
+  1:1  error  Spec file "smoke-basic.spec.ts" has no corresponding implementation file "smoke-basic.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/tree-visual.spec.ts
+  1:1  error  Spec file "tree-visual.spec.ts" has no corresponding implementation file "tree-visual.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/universities-language.spec.ts
+  1:1  error  Spec file "universities-language.spec.ts" has no corresponding implementation file "universities-language.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/user-registration.spec.ts
+  1:1  error  Spec file "user-registration.spec.ts" has no corresponding implementation file "user-registration.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/user-settings-management.spec.ts
+    1:1   error  Spec file "user-settings-management.spec.ts" has no corresponding implementation file "user-settings-management.ts"  ddd/require-spec-file
+   91:14  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  146:14  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  234:16  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  235:19  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  236:21  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  240:12  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  241:12  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  242:12  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+  299:14  error  Optional property access is not allowed                                                                              no-optional-chaining/no-optional-chaining
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/api-client.ts
+    1:1   error  Missing spec file: "api-client.spec.ts" should exist alongside this file                                                     ddd/require-spec-file
+   14:1   error  Only one export is allowed per file. Found 2 exports. Split functionality across multiple files following domain boundaries  single-export/single-export
+   34:51  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+   34:51  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+   45:16  error  Generic Object Injection Sink                                                                                                security/detect-object-injection
+   47:16  error  Generic Object Injection Sink                                                                                                security/detect-object-injection
+   59:48  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+   59:48  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+   84:28  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+   97:16  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+   97:16  error  Optional computed property access is not allowed                                                                             no-optional-chaining/no-optional-chaining
+  114:48  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+  114:48  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+  124:1   error  File has too many lines (251). Maximum allowed is 100                                                                        max-lines
+  138:28  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  148:16  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  148:16  error  Optional computed property access is not allowed                                                                             no-optional-chaining/no-optional-chaining
+  165:48  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+  165:48  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+  184:35  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  184:35  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  201:48  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+  201:48  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+  224:15  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  245:48  error  Avoid hardcoded "localhost". Use environment variables instead                                                               default/no-localhost
+  245:48  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                             default/no-hardcoded-urls
+  270:35  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  270:35  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  271:15  error  Optional property access is not allowed                                                                                      no-optional-chaining/no-optional-chaining
+  286:25  error  Default values in methods are not allowed. Handle defaults in the method body                                                default/no-default-params
+  286:25  error  Default values in methods are not allowed. Handle defaults in the method body                                                default/no-default-params
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/ci-reporter.ts
+    1:1   error  Missing spec file: "ci-reporter.spec.ts" should exist alongside this file                                         ddd/require-spec-file
+   10:3   error  Class properties cannot have default values. Initialize properties in the constructor or through methods instead  no-restricted-syntax
+   22:19  error  Optional property access is not allowed                                                                           no-optional-chaining/no-optional-chaining
+   62:7   error  Default cases are not allowed in switch statements. Handle all possible cases explicitly                          no-restricted-syntax
+   70:12  error  Optional property access is not allowed                                                                           no-optional-chaining/no-optional-chaining
+   90:15  error  Optional property access is not allowed                                                                           no-optional-chaining/no-optional-chaining
+   91:15  error  Optional property access is not allowed                                                                           no-optional-chaining/no-optional-chaining
+  122:1   error  File has too many lines (269). Maximum allowed is 100                                                             max-lines
+  124:38  error  Avoid hardcoded "localhost". Use environment variables instead                                                    default/no-localhost
+  124:38  error  Avoid hardcoded URLs. Use environment variables like process.env.API_URL instead                                  default/no-hardcoded-urls
+  133:42  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  135:11  error  Found mkdir from package "fs" with non literal argument at index 0                                                security/detect-non-literal-fs-filename
+  139:11  error  Found writeFile from package "fs" with non literal argument at index 0                                            security/detect-non-literal-fs-filename
+  144:11  error  Found writeFile from package "fs" with non literal argument at index 0                                            security/detect-non-literal-fs-filename
+  149:11  error  Found writeFile from package "fs" with non literal argument at index 0                                            security/detect-non-literal-fs-filename
+  155:13  error  Found writeFile from package "fs" with non literal argument at index 0                                            security/detect-non-literal-fs-filename
+  161:49  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  214:37  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  248:54  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  254:43  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  315:36  error  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/debug-helpers.ts
+    1:1   error  Missing spec file: "debug-helpers.spec.ts" should exist alongside this file                                                      ddd/require-spec-file
+   14:40  error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+   14:40  error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+   18:11  error  Found mkdir from package "fs" with non literal argument at index 0                                                               security/detect-non-literal-fs-filename
+   69:13  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+   82:17  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+   82:27  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+   85:13  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+  101:17  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  101:27  error  Unexpected any. Specify a different type                                                                                         @typescript-eslint/no-explicit-any
+  104:13  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+  121:11  error  Generic Object Injection Sink                                                                                                    security/detect-object-injection
+  123:12  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  126:11  error  Generic Object Injection Sink                                                                                                    security/detect-object-injection
+  128:12  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  133:13  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+  156:1   error  File has too many lines (257). Maximum allowed is 100                                                                            max-lines
+  159:27  error  Type assertions with "as" are not allowed except for "as const"                                                                  no-restricted-syntax
+  164:26  error  Optional property access is not allowed                                                                                          no-optional-chaining/no-optional-chaining
+  172:13  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+  211:18  error  Optional property access is not allowed                                                                                          no-optional-chaining/no-optional-chaining
+  215:11  error  Found writeFile from package "fs" with non literal argument at index 0                                                           security/detect-non-literal-fs-filename
+  227:5   error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+  227:5   error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+  248:13  error  Expected an error object to be thrown. Ensure you have tests covering this error scenario                                        error/no-throw-literal
+  255:42  error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+  255:42  error  Default values in methods are not allowed. Handle defaults in the method body                                                    default/no-default-params
+  264:11  error  Direct access to process.env properties is not allowed. Use process.env as a whole object instead (e.g., validate(process.env))  no-restricted-syntax
+  283:13  error  Expected an error object to be thrown. Ensure you have tests covering this error scenario                                        error/no-throw-literal
+  297:11  error  Direct access to process.env properties is not allowed. Use process.env as a whole object instead (e.g., validate(process.env))  no-restricted-syntax
+  308:15  error  Avoid throwing generic Error. Use a custom error class instead. Ensure you have tests covering this error scenario               error/no-generic-error
+  308:15  error  Use custom error classes instead of generic Error. Ensure you have tests covering this error scenario                            error/require-custom-error
+  319:13  error  Expected an error object to be thrown. Ensure you have tests covering this error scenario                                        error/no-throw-literal
+  356:13  error  Expected an error object to be thrown. Ensure you have tests covering this error scenario                                        error/no-throw-literal
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/screenshot-helpers.ts
+    1:1   error  Missing spec file: "screenshot-helpers.spec.ts" should exist alongside this file              ddd/require-spec-file
+   16:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   16:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   40:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   40:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   62:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   62:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   99:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+   99:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  113:19  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  113:29  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  132:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  132:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  142:1   error  File has too many lines (344). Maximum allowed is 100                                         max-lines
+  155:31  error  Function expressions containing switch statements must have explicit return type annotations  no-restricted-syntax
+  158:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  158:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  194:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  194:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  233:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  233:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  261:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  261:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  278:8   error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  278:18  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  278:47  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  278:57  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  279:8   error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  279:18  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  295:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  295:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  334:8   error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  334:18  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  334:46  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  334:56  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  335:8   error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  335:18  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  349:33  error  Function expressions containing switch statements must have explicit return type annotations  no-restricted-syntax
+  455:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  455:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  474:23  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  474:33  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+  475:22  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  475:32  error  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/test-data.ts
+   1:1  error  Missing spec file: "test-data.spec.ts" should exist alongside this file                                                      ddd/require-spec-file
+  11:1  error  Only one export is allowed per file. Found 4 exports. Split functionality across multiple files following domain boundaries  single-export/single-export
+  16:1  error  Only one export is allowed per file. Found 4 exports. Split functionality across multiple files following domain boundaries  single-export/single-export
+  22:1  error  Only one export is allowed per file. Found 4 exports. Split functionality across multiple files following domain boundaries  single-export/single-export
+  23:3  error  Class properties cannot have default values. Initialize properties in the constructor or through methods instead             no-restricted-syntax
+  24:3  error  Class properties cannot have default values. Initialize properties in the constructor or through methods instead             no-restricted-syntax
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/utils/visual-helpers.ts
+    1:1   error  Missing spec file: "visual-helpers.spec.ts" should exist alongside this file                  ddd/require-spec-file
+    9:30  error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+    9:30  error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  101:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  101:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  134:1   error  File has too many lines (230). Maximum allowed is 100                                         max-lines
+  149:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  149:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  188:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  188:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  222:33  error  Function expressions containing switch statements must have explicit return type annotations  no-restricted-syntax
+  225:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  225:5   error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  253:34  error  Switch case arrow functions must have explicit return type annotations                        no-restricted-syntax
+  254:14  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  255:14  error  Type assertions with "as" are not allowed except for "as const"                               no-restricted-syntax
+  278:32  error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+  278:32  error  Default values in methods are not allowed. Handle defaults in the method body                 default/no-default-params
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/visual-regression.spec.ts
+  1:1  error  Spec file "visual-regression.spec.ts" has no corresponding implementation file "visual-regression.ts"  ddd/require-spec-file
+
+/Users/ofek/dev/git/github/tupe12334/lumina/apps/e2e/playwright/window-resize.spec.ts
+  1:1  error  Spec file "window-resize.spec.ts" has no corresponding implementation file "window-resize.ts"  ddd/require-spec-file
+
+✖ 352 problems (352 errors, 0 warnings)
+

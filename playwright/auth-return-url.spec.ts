@@ -8,7 +8,7 @@ test.describe('Authentication Return URL Flow', () => {
   test('Should redirect back to courses page after login', async ({ page }) => {
     // Start by navigating to a protected page (courses)
     await page.goto('/courses');
-    
+
     // The page should be accessible without authentication (based on current implementation)
     // Click the login button from the sidebar
     const sidebar = new Sidebar(page);
@@ -18,11 +18,11 @@ test.describe('Authentication Return URL Flow', () => {
 
     // Should be redirected to login page
     expect(page.url()).toContain('/login');
-    
+
     // Check that the return URL is preserved (either in URL params or sessionStorage)
     const currentUrl = page.url();
     const hasReturnParam = currentUrl.includes('returnUrl=%2Fcourses') || currentUrl.includes('returnUrl=/courses');
-    
+
     // If not in URL params, check sessionStorage
     let hasReturnInStorage = false;
     if (!hasReturnParam) {
@@ -31,7 +31,7 @@ test.describe('Authentication Return URL Flow', () => {
       });
       hasReturnInStorage = returnUrl === '/courses';
     }
-    
+
     expect(hasReturnParam || hasReturnInStorage).toBe(true);
 
     // Perform login
@@ -56,7 +56,7 @@ test.describe('Authentication Return URL Flow', () => {
     // Navigate to a specific course page
     const courseId = '123';
     await page.goto(`/courses/${courseId}`);
-    
+
     // Click login from the sidebar
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();
@@ -69,9 +69,9 @@ test.describe('Authentication Return URL Flow', () => {
     // Verify return URL is preserved
     const currentUrl = page.url();
     const expectedReturnUrl = `/courses/${courseId}`;
-    const hasReturnParam = currentUrl.includes(`returnUrl=%2Fcourses%2F${courseId}`) || 
+    const hasReturnParam = currentUrl.includes(`returnUrl=%2Fcourses%2F${courseId}`) ||
                            currentUrl.includes(`returnUrl=/courses/${courseId}`);
-    
+
     let hasReturnInStorage = false;
     if (!hasReturnParam) {
       const returnUrl = await page.evaluate(() => {
@@ -79,14 +79,14 @@ test.describe('Authentication Return URL Flow', () => {
       });
       hasReturnInStorage = returnUrl === expectedReturnUrl;
     }
-    
+
     expect(hasReturnParam || hasReturnInStorage).toBe(true);
   });
 
   test('Should redirect back to degrees page after registration', async ({ page }) => {
     // Navigate to degrees page
     await page.goto('/degrees');
-    
+
     // Click login button (which will take us to login page)
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();
@@ -124,7 +124,7 @@ test.describe('Authentication Return URL Flow', () => {
   test('Should handle direct navigation to login page without return URL', async ({ page }) => {
     // Navigate directly to login page
     await page.goto('/login');
-    
+
     // Verify no return URL is set
     const returnUrl = await page.evaluate(() => {
       return window.sessionStorage.getItem('lumina.auth.returnUrl');
@@ -150,14 +150,14 @@ test.describe('Authentication Return URL Flow', () => {
   test('Should not save auth pages as return URLs', async ({ page }) => {
     // Start at login page
     await page.goto('/login');
-    
+
     // Click the "Sign Up" link to go to register
     await page.click('a[href="/register"]');
     expect(page.url()).toContain('/register');
 
     // Navigate back to a regular page
     await page.goto('/');
-    
+
     // Then navigate to login
     await page.goto('/login');
 
@@ -165,7 +165,7 @@ test.describe('Authentication Return URL Flow', () => {
     const returnUrl = await page.evaluate(() => {
       return window.sessionStorage.getItem('lumina.auth.returnUrl');
     });
-    
+
     // Should not have saved /register as return URL
     expect(returnUrl).not.toBe('/register');
     expect(returnUrl).not.toBe('/login');
@@ -174,28 +174,28 @@ test.describe('Authentication Return URL Flow', () => {
   test('Should validate return URL for security', async ({ page }) => {
     // Try to set a malicious return URL via URL parameters
     await page.goto('/login?returnUrl=https://evil.com/steal-tokens');
-    
+
     // The malicious URL should not be saved
     const returnUrl = await page.evaluate(() => {
       return window.sessionStorage.getItem('lumina.auth.returnUrl');
     });
-    
+
     expect(returnUrl).not.toBe('https://evil.com/steal-tokens');
-    
+
     // Try with protocol-relative URL
     await page.goto('/login?returnUrl=//evil.com/steal-tokens');
-    
+
     const returnUrl2 = await page.evaluate(() => {
       return window.sessionStorage.getItem('lumina.auth.returnUrl');
     });
-    
+
     expect(returnUrl2).not.toBe('//evil.com/steal-tokens');
   });
 
   test('Should clear return URL after successful redirect', async ({ page }) => {
     // Navigate to courses page
     await page.goto('/courses');
-    
+
     // Click login from sidebar
     const sidebar = new Sidebar(page);
     await sidebar.waitForFullyMounting();

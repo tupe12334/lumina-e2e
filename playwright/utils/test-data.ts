@@ -33,7 +33,7 @@ export class TestDataManager {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
     };
-    
+
     this.createdUsers.push(user);
     return user;
   }
@@ -47,7 +47,7 @@ export class TestDataManager {
     const uppercase = faker.string.alpha({ length: 2, casing: 'upper' });
     const numbers = faker.string.numeric(2);
     const special = faker.helpers.arrayElement(['!', '@', '#', '$', '%']);
-    
+
     const password = lowercase + uppercase + numbers + special;
     return faker.helpers.shuffle(password.split('')).join('');
   }

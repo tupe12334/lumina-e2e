@@ -4,10 +4,10 @@ test.describe('First-time Language Selection', () => {
   test.beforeEach(async ({ page }) => {
     // Clear cookies first
     await page.context().clearCookies();
-    
+
     // Navigate to page first to establish domain context
     await page.goto('/');
-    
+
     // Then clear localStorage to simulate first-time user
     await page.evaluate(() => {
       try {
@@ -18,7 +18,7 @@ test.describe('First-time Language Selection', () => {
         console.log('LocalStorage clear failed:', e.message);
       }
     });
-    
+
     // Reload page after clearing storage
     await page.reload();
   });
@@ -31,16 +31,16 @@ test.describe('First-time Language Selection', () => {
     await expect(dialog).toBeVisible();
     await expect(dialog.getByText('Welcome to Lumina')).toBeVisible();
     await expect(dialog.getByText('Choose your preferred language to get started')).toBeVisible();
-    
+
     // Take screenshot of the language selection modal
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/initial-modal-display.png',
-      fullPage: true 
+      fullPage: true
     });
-    
+
     // Check that all language options are present as buttons
     await expect(page.getByRole('option', { name: /Select English .* as your language/ })).toBeVisible();
-    await expect(page.getByRole('option', { name: /Select Hebrew .* as your language/ })).toBeVisible(); 
+    await expect(page.getByRole('option', { name: /Select Hebrew .* as your language/ })).toBeVisible();
     await expect(page.getByRole('option', { name: /Select Spanish .* as your language/ })).toBeVisible();
   });
 
@@ -79,9 +79,9 @@ test.describe('First-time Language Selection', () => {
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // Take screenshot before selection
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/before-hebrew-selection.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Click on Hebrew option
@@ -94,9 +94,9 @@ test.describe('First-time Language Selection', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot after Hebrew selection to show RTL layout
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/after-hebrew-selection-rtl.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Check that language preference was saved and UI switched to Hebrew
@@ -152,9 +152,9 @@ test.describe('First-time Language Selection', () => {
     await expect(englishOption).toBeFocused();
 
     // Take screenshot showing focus state
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/keyboard-focus-english.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Navigate using Tab key
@@ -163,9 +163,9 @@ test.describe('First-time Language Selection', () => {
     await expect(hebrewOption).toBeFocused();
 
     // Take screenshot showing focus moved to second option
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/keyboard-focus-hebrew.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Select using Enter key
@@ -304,14 +304,14 @@ test.describe('First-time Language Selection', () => {
 
     // 1. Modal component isolation
     const modal = page.getByRole('dialog');
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-component-isolated.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-component-isolated.png'
     });
 
     // 2. Full page with modal backdrop
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/modal-with-backdrop.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // 3. Individual language options (normal state)
@@ -329,34 +329,34 @@ test.describe('First-time Language Selection', () => {
 
     // 4. Hover states for each language option
     await page.getByRole('option', { name: /Select English .* as your language/ }).hover();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-english-hovered.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-english-hovered.png'
     });
 
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).hover();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-hebrew-hovered.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-hebrew-hovered.png'
     });
 
     await page.getByRole('option', { name: /Select Spanish .* as your language/ }).hover();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-spanish-hovered.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-spanish-hovered.png'
     });
 
     // 5. Focus states for accessibility testing
     await page.getByRole('option', { name: /Select English .* as your language/ }).focus();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-english-focused.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-english-focused.png'
     });
 
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).focus();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-hebrew-focused.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-hebrew-focused.png'
     });
 
     await page.getByRole('option', { name: /Select Spanish .* as your language/ }).focus();
-    await modal.screenshot({ 
-      path: 'test-results/screenshots/first-time-language/modal-spanish-focused.png' 
+    await modal.screenshot({
+      path: 'test-results/screenshots/first-time-language/modal-spanish-focused.png'
     });
   });
 
@@ -365,35 +365,35 @@ test.describe('First-time Language Selection', () => {
 
     // Step 1: First load showing modal
     await expect(page.getByRole('dialog')).toBeVisible();
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/journey-01-modal-appears.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Step 2: User considers Hebrew option
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).hover();
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/journey-02-considering-hebrew.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Step 3: User selects Hebrew
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
-    
+
     // Step 4: Wait for language switch and RTL layout
     await page.waitForTimeout(1500);
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/journey-03-hebrew-selected-rtl.png',
-      fullPage: true 
+      fullPage: true
     });
 
     // Step 5: Verify no modal on reload
     await page.reload();
     await page.waitForLoadState('networkidle');
-    await page.screenshot({ 
+    await page.screenshot({
       path: 'test-results/screenshots/first-time-language/journey-04-no-modal-on-return.png',
-      fullPage: true 
+      fullPage: true
     });
   });
 
@@ -464,7 +464,7 @@ test.describe('First-time Language Selection', () => {
 
     // Step 2: Select Hebrew to test RTL layout
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).click();
-    
+
     // Wait for modal to close and language to switch
     await expect(page.getByRole('dialog')).not.toBeVisible();
     await page.waitForTimeout(1500); // Wait for RTL layout changes
@@ -478,7 +478,7 @@ test.describe('First-time Language Selection', () => {
     // Step 4: Reload to verify no modal appears
     await page.reload();
     await page.waitForLoadState('networkidle');
-    
+
     await expect(page).toHaveScreenshot('flow-03-no-modal-return.png', {
       fullPage: true,
       animations: 'disabled'
@@ -495,10 +495,10 @@ test.describe('First-time Language Selection', () => {
 
     for (const viewport of mobileViewports) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      
+
       // Wait for modal to be visible
       await expect(page.getByRole('dialog')).toBeVisible();
-      
+
       // Take screenshot for each viewport
       await expect(page).toHaveScreenshot(`modal-${viewport.name}.png`, {
         fullPage: true,
@@ -510,27 +510,27 @@ test.describe('First-time Language Selection', () => {
   test('visual regression - dark theme modal @visual', async ({ page }) => {
     // Enable dark theme by setting system preference
     await page.emulateMedia({ colorScheme: 'dark' });
-    
+
     // Wait for modal and theme to load
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.waitForTimeout(500); // Allow theme transition
-    
+
     // Take screenshot of dark theme modal
     await expect(page).toHaveScreenshot('modal-dark-theme.png', {
       fullPage: true,
       animations: 'disabled'
     });
-    
+
     // Test dark theme with different language selections
     const dialog = page.getByRole('dialog');
-    
+
     // Hover state in dark theme
     await page.getByRole('option', { name: /Select English .* as your language/ }).hover();
     await expect(dialog).toHaveScreenshot('modal-dark-english-hover.png', {
       animations: 'disabled'
     });
-    
-    // Focus state in dark theme  
+
+    // Focus state in dark theme
     await page.getByRole('option', { name: /Select Hebrew .* as your language/ }).focus();
     await expect(dialog).toHaveScreenshot('modal-dark-hebrew-focus.png', {
       animations: 'disabled'
@@ -539,19 +539,19 @@ test.describe('First-time Language Selection', () => {
 
   test('visual regression - high contrast and accessibility @visual', async ({ page }) => {
     // Enable high contrast mode
-    await page.emulateMedia({ 
+    await page.emulateMedia({
       colorScheme: 'dark',
-      reducedMotion: 'reduce' 
+      reducedMotion: 'reduce'
     });
-    
+
     await expect(page.getByRole('dialog')).toBeVisible();
-    
+
     // High contrast modal
     await expect(page).toHaveScreenshot('modal-high-contrast.png', {
       fullPage: true,
       animations: 'disabled'
     });
-    
+
     // Test keyboard navigation visibility in high contrast
     await page.keyboard.press('Tab'); // Focus first option
     await expect(page.getByRole('dialog')).toHaveScreenshot('modal-high-contrast-focus.png', {
