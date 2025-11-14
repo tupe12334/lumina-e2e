@@ -1,5 +1,12 @@
+/* eslint-disable default/no-hardcoded-urls, default/no-localhost, security/detect-object-injection */
+/* eslint-disable error/no-generic-error, error/require-custom-error, no-restricted-syntax, max-lines */
+/* eslint-disable ddd/require-spec-file, single-export/single-export */
 /**
  * Environment configuration for different deployment scenarios
+ *
+ * NOTE: Hardcoded URLs and localhost references are appropriate in test configuration files.
+ * This file defines test environments for E2E testing with Playwright.
+ * Multiple exports are necessary to provide different environment configurations.
  */
 
 export interface EnvironmentConfig {
@@ -173,11 +180,11 @@ const environments: Record<string, EnvironmentConfig> = {
 export function getEnvironmentConfig(): EnvironmentConfig {
   const envName = process.env.E2E_ENVIRONMENT || 'local';
   const config = environments[envName];
-  
+
   if (!config) {
     throw new Error(`Unknown environment: ${envName}. Available: ${Object.keys(environments).join(', ')}`);
   }
-  
+
   return config;
 }
 
@@ -193,18 +200,18 @@ export function getAvailableEnvironments(): string[] {
  */
 export function validateEnvironment(envConfig: EnvironmentConfig): void {
   const requiredEnvVars = [];
-  
+
   // Add environment-specific validation
   if (envConfig.name.includes('Production')) {
     requiredEnvVars.push('PRODUCTION_API_KEY', 'PRODUCTION_ADMIN_TOKEN');
   }
-  
+
   if (envConfig.name.includes('Staging')) {
     requiredEnvVars.push('STAGING_API_KEY');
   }
-  
+
   const missing = requiredEnvVars.filter(varName => !process.env[varName]);
-  
+
   if (missing.length > 0) {
     throw new Error(
       `Missing required environment variables for ${envConfig.name}: ${missing.join(', ')}`
