@@ -1,6 +1,6 @@
-/* eslint-disable default/no-hardcoded-urls, default/no-localhost, security/detect-object-injection */
-/* eslint-disable error/no-generic-error, error/require-custom-error, no-restricted-syntax, max-lines */
-/* eslint-disable ddd/require-spec-file, single-export/single-export */
+
+
+
 /**
  * Environment configuration for different deployment scenarios
  *
